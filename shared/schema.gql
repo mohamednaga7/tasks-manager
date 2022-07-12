@@ -9,7 +9,7 @@ type Mutation {
 }
 
 type Query {
-  me(id: String!): User!
+  me: User!
 }
 
 type User {
