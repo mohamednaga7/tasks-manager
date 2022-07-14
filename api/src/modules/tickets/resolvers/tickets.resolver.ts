@@ -16,11 +16,13 @@ import { User } from '../../users/models/user.model'
 import { UsersService } from '../../users/services/users.service'
 import { CreateTicketInput } from '../types/create-ticket-input.type'
 import { UpdateTicketInput } from '../types/update-ticket-input.type'
+import { TicketsHistoryService } from '../services/tickets-history.service'
 
 @Resolver(Ticket)
 export class TicketsResolver {
   usersService = Container.get(UsersService)
   ticketsService = Container.get(TicketsService)
+  ticketsHistoryService = Container.get(TicketsHistoryService)
 
   @Query((_returns) => Ticket)
   @Authorized()
@@ -73,9 +75,16 @@ export class TicketsResolver {
       throw new Error("You're not authorized to do this")
     }
     const updatedTicket = await this.ticketsService.updateTicket(
-      ctx.req.session.user,
       ticketId,
       updateTicketInput,
+    )
+
+    const updatedField = Object.keys(updateTicketInput)[0] as keyof Ticket
+
+    await this.ticketsHistoryService.createTicketHistory(
+      updatedTicket,
+      ctx.req.session.user,
+      updatedField,
     )
 
     return updatedTicket

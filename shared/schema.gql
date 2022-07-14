@@ -24,6 +24,7 @@ type Mutation {
 type Query {
   me: User!
   ticket(ticketId: String!): Ticket!
+  ticketHistory(ticketId: String!): [TicketHistory!]!
   tickets(limit: Float, skip: Float): [Ticket!]!
   users(limit: Float!, skip: Float!): [User!]!
 }
@@ -40,6 +41,16 @@ type Ticket {
   status: TicketStatus!
   title: String!
   updatedAt: DateTime!
+}
+
+type TicketHistory {
+  createdAt: DateTime!
+  id: ID!
+  message: String!
+  ticket: Ticket!
+  ticketId: ID!
+  updatingUser: User!
+  updatingUserId: ID!
 }
 
 enum TicketStatus {

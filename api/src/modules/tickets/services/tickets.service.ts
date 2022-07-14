@@ -41,11 +41,9 @@ export class TicketsService {
   }
 
   public async updateTicket(
-    currentUser: User,
     ticketId: string,
     updateTicketInput: UpdateTicketInput,
   ): Promise<Ticket> {
-    // TODO: after creating the ticket history feature use currentUser to create history entity
     const ticket = await this.prismaClient.ticket.findUniqueOrThrow({
       where: {
         id: ticketId,
@@ -54,11 +52,6 @@ export class TicketsService {
 
     // check if the user is trying to update the ticket status
     if (updateTicketInput.status) {
-      // if the new status is the same as the old status, do nothing just return the ticket
-      if (updateTicketInput.status === ticket.status) {
-        return ticket
-      }
-
       // if the ticket is deployed, throw error because it can't be updated
       if (ticket.status === TicketStatus.DEPLOYED) {
         throw new Error(

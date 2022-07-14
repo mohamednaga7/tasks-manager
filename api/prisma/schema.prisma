@@ -11,28 +11,43 @@ datasource db {
 }
 
 model User {
-  id              String   @id @default(cuid())
-  firstName       String
-  lastName        String
-  email           String   @unique
-  username        String   @unique
-  password        String
-  createdTickets  Ticket[] @relation("author")
-  assignedTickets Ticket[] @relation("assigned")
+  id               String          @id @default(cuid())
+  firstName        String
+  lastName         String
+  email            String          @unique
+  username         String          @unique
+  password         String
+  createdTickets   Ticket[]        @relation("author")
+  assignedTickets  Ticket[]        @relation("assigned")
+  updatedTickets   Ticket[]        @relation("lastUpdatedByUser")
+  ticketActivities TicketHistory[] @relation("updatingUser")
 }
 
 model Ticket {
-  id             String       @id @default(cuid())
-  title          String
-  description    String
-  status         TicketStatus @default(TODO)
-  authorId       String
-  author         User         @relation("author", fields: [authorId], references: [id])
-  assignedUserId String?
-  assignedUser   User?        @relation("assigned", fields: [assignedUserId], references: [id])
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
-  closedAt       DateTime?
+  id                  String          @id @default(cuid())
+  title               String
+  description         String
+  status              TicketStatus    @default(TODO)
+  authorId            String
+  author              User            @relation("author", fields: [authorId], references: [id])
+  assignedUserId      String?
+  assignedUser        User?           @relation("assigned", fields: [assignedUserId], references: [id])
+  createdAt           DateTime        @default(now())
+  updatedAt           DateTime        @updatedAt
+  lastUpdatedByUserId String?
+  lastUpdatedByUser   User?           @relation("lastUpdatedByUser", fields: [lastUpdatedByUserId], references: [id])
+  closedAt            DateTime?
+  updates             TicketHistory[]
+}
+
+model TicketHistory {
+  id             String   @id @default(cuid())
+  ticketId       String
+  ticket         Ticket   @relation(fields: [ticketId], references: [id])
+  updatingUserId String
+  updatingUser   User     @relation("updatingUser", fields: [updatingUserId], references: [id])
+  message        String
+  createdAt      DateTime @default(now())
 }
 
 enum TicketStatus {
