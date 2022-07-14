@@ -3,39 +3,84 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input CreateTicketInput {
+  assigneeId: ID
+  description: String!
+  title: String!
+}
+
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
 type Mutation {
-	signin(userSigninInput: UserSigninInput!): UserWithToken!
-	signup(userSignupInput: UserSignupInput!): UserWithToken!
+  createTicket(input: CreateTicketInput!): Ticket!
+  signin(userSigninInput: UserSigninInput!): UserWithToken!
+  signup(userSignupInput: UserSignupInput!): UserWithToken!
+  updateTicket(input: UpdateTicketInput!, ticketId: String!): Ticket!
 }
 
 type Query {
-	me: User!
-	users(limit: Float!, skip: Float!): [User!]!
+  me: User!
+  ticket(ticketId: String!): Ticket!
+  tickets(limit: Float, skip: Float): [Ticket!]!
+  users(limit: Float!, skip: Float!): [User!]!
+}
+
+type Ticket {
+  assignedUser: User
+  assigneeId: ID
+  author: User!
+  authorId: ID!
+  closedAt: DateTime!
+  createdAt: DateTime!
+  description: String!
+  id: ID!
+  status: TicketStatus!
+  title: String!
+  updatedAt: DateTime!
+}
+
+enum TicketStatus {
+  BLOCKED
+  DEPLOYED
+  DONE
+  IN_PROGRESS
+  IN_QA
+  TODO
+}
+
+input UpdateTicketInput {
+  assigneeId: ID
+  description: String
+  status: TicketStatus
+  title: String
 }
 
 type User {
-	email: String!
-	firstName: String!
-	id: ID!
-	lastName: String!
-	name: String!
-	username: String!
+  email: String!
+  firstName: String!
+  id: ID!
+  lastName: String!
+  name: String!
+  username: String!
 }
 
 input UserSigninInput {
-	emailOrUsername: String!
-	password: String!
+  emailOrUsername: String!
+  password: String!
 }
 
 input UserSignupInput {
-	email: String!
-	firstName: String!
-	lastName: String!
-	password: String!
-	username: String!
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  username: String!
 }
 
 type UserWithToken {
-	token: String!
-	user: User!
+  token: String!
+  user: User!
 }

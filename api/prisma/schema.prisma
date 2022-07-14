@@ -11,10 +11,35 @@ datasource db {
 }
 
 model User {
-  id        String @id @default(cuid())
-  firstName String
-  lastName  String
-  email     String @unique
-  username  String @unique
-  password  String
+  id              String   @id @default(cuid())
+  firstName       String
+  lastName        String
+  email           String   @unique
+  username        String   @unique
+  password        String
+  createdTickets  Ticket[] @relation("author")
+  assignedTickets Ticket[] @relation("assigned")
+}
+
+model Ticket {
+  id             String       @id @default(cuid())
+  title          String
+  description    String
+  status         TicketStatus @default(TODO)
+  authorId       String
+  author         User         @relation("author", fields: [authorId], references: [id])
+  assignedUserId String?
+  assignedUser   User?        @relation("assigned", fields: [assignedUserId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  closedAt       DateTime?
+}
+
+enum TicketStatus {
+  TODO
+  IN_PROGRESS
+  BLOCKED
+  IN_QA
+  DONE
+  DEPLOYED
 }
