@@ -31,7 +31,6 @@ export class TicketsHistoryService {
     const message = await this.getTicketHistoryUpdateMessage(
       ticket,
       updatedField,
-      updatingUser,
     )
     return this.prismaClient.ticketHistory.create({
       data: {
@@ -45,20 +44,19 @@ export class TicketsHistoryService {
   private async getTicketHistoryUpdateMessage(
     ticket: Ticket,
     updatedField: keyof Ticket,
-    updatingUser: User,
   ): Promise<string> {
     switch (updatedField) {
       case 'status':
-        return `${updatingUser.firstName} ${updatingUser.lastName} changed the ticket status to ${ticket.status}`
+        return `changed the ticket status to ${ticket.status}`
       case 'title':
-        return `${updatingUser.firstName} ${updatingUser.lastName} changed the ticket title to ${ticket.title}`
+        return `changed the ticket title to ${ticket.title}`
       case 'description':
-        return `${updatingUser.firstName} ${updatingUser.lastName} changed the ticket description to ${ticket.description}`
+        return `changed the ticket description to ${ticket.description}`
       case 'assigneeId':
         const assignedUser = await this.usersService.getUser(ticket.assigneeId!)
-        return `${updatingUser.firstName} ${updatingUser.lastName} assigned the ticket to ${assignedUser.firstName} ${assignedUser.lastName}`
+        return `assigned the ticket to ${assignedUser.firstName} ${assignedUser.lastName}`
       default:
-        return `${updatingUser.firstName} ${updatingUser.lastName} updated the ticket`
+        return `updated the ticket`
     }
   }
 }
