@@ -26,6 +26,12 @@ export class UsersResolver {
     return this.usersService.getCurrentUser(ctx.req.session.user!)
   }
 
+  @Query((_returns) => [User])
+  @Authorized()
+  async users(@Arg('limit') limit: number, @Arg('skip') skip: number) {
+    return this.usersService.getUsers({ limit, skip })
+  }
+
   @FieldResolver((_type) => String)
   name(@Root() parent: User) {
     return `${parent.firstName} ${parent.lastName}`

@@ -1,88 +1,107 @@
-import { PrismaClient } from '@prisma/client';
-import { Service } from 'typedi';
-import { UserSignupInput } from '../types/user-signup-input.type';
-import { User } from '../models/user.model';
-import { UserSigninInput } from '../types/user-signin-input.type';
-import { UserWithToken } from '../types/user-with-token.type';
-import { AuthService } from './auth.service';
+import { PrismaClient } from '@prisma/client'
+import { Service } from 'typedi'
+import { UserSignupInput } from '../types/user-signup-input.type'
+import { User } from '../models/user.model'
+import { UserSigninInput } from '../types/user-signin-input.type'
+import { UserWithToken } from '../types/user-with-token.type'
+import { AuthService } from './auth.service'
 
 @Service()
 export class UsersService {
-	constructor(
-		private prismaClient: PrismaClient,
-		private authService: AuthService
-	) {}
+  constructor(
+    private prismaClient: PrismaClient,
+    private authService: AuthService,
+  ) {}
 
-	public async getCurrentUser(authUser: Partial<User>): Promise<User> {
-		const user = await this.prismaClient.user.findUniqueOrThrow({
-			where: {
-				id: authUser.id,
-			},
-		});
-		return user;
-	}
+  public async getUser(id: string): Promise<User> {
+    return this.prismaClient.user.findUniqueOrThrow({
+      where: {
+        id,
+      },
+    })
+  }
 
-	public async signupUser(
-		userSignupInput: UserSignupInput
-	): Promise<UserWithToken> {
-		const foundUser = await this.prismaClient.user.findFirst({
-			where: {
-				OR: [
-					{ email: userSignupInput.email },
-					{ username: userSignupInput.username },
-				],
-			},
-		});
+  public async getCurrentUser(authUser: Partial<User>): Promise<User> {
+    const user = await this.prismaClient.user.findUniqueOrThrow({
+      where: {
+        id: authUser.id,
+      },
+    })
+    return user
+  }
 
-		if (foundUser) throw new Error('User already exist');
+  public async getUsers({ limit = 20, skip = 0 }): Promise<User[]> {
+    return this.prismaClient.user.findMany({
+      take: limit,
+      skip: skip,
+      orderBy: {
+        firstName: 'asc',
+        lastName: 'asc',
+      },
+    })
+  }
 
-		const hashedPassword = await this.authService.hashUserPassword(
-			userSignupInput.password
-		);
+  public async signupUser(
+    userSignupInput: UserSignupInput,
+  ): Promise<UserWithToken> {
+    const foundUser = await this.prismaClient.user.findFirst({
+      where: {
+        OR: [
+          { email: userSignupInput.email },
+          { username: userSignupInput.username },
+        ],
+      },
+    })
 
-		const user = await this.prismaClient.user.create({
-			data: {
-				...userSignupInput,
-				password: hashedPassword,
-			},
-		});
+    if (foundUser) throw new Error('User already exist')
 
-		const token = this.authService.generateJWTToken({
-			id: user.id,
-			email: user.email,
-			username: user.username,
-		});
+    const hashedPassword = await this.authService.hashUserPassword(
+      userSignupInput.password,
+    )
 
-		return { user, token };
-	}
+    const user = await this.prismaClient.user.create({
+      data: {
+        ...userSignupInput,
+        password: hashedPassword,
+      },
+    })
 
-	public async signinUser(
-		userSigninInput: UserSigninInput
-	): Promise<UserWithToken> {
-		const user = await this.prismaClient.user.findFirst({
-			where: {
-				OR: [
-					{ email: userSigninInput.emailOrUsername },
-					{ username: userSigninInput.emailOrUsername },
-				],
-			},
-		});
+    const token = this.authService.generateJWTToken({
+      id: user.id,
+      email: user.email,
+      username: user.username,
+    })
 
-		if (!user) throw new Error('Wrong Credentials');
+    return { user, token }
+  }
 
-		const isPasswordCorrect = await this.authService.compareUserPassword(
-			userSigninInput.password,
-			user.password
-		);
+  public async signinUser(
+    userSigninInput: UserSigninInput,
+  ): Promise<UserWithToken> {
+    const user = await this.prismaClient.user.findFirst({
+      where: {
+        OR: [
+          { email: userSigninInput.emailOrUsername },
+          { username: userSigninInput.emailOrUsername },
+        ],
+      },
+    })
 
-		if (!isPasswordCorrect) throw new Error('Wrong Credentials');
+    if (!user) throw new Error('Wrong Credentials')
 
-		const token = this.authService.generateJWTToken({
-			id: user.id,
-			email: user.email,
-			username: user.username,
-		});
+    const isPasswordCorrect = await this.authService.compareUserPassword(
+      userSigninInput.password,
+      user.password,
+    )
 
-		return { user, token };
-	}
+    if (!isPasswordCorrect) throw new Error('Wrong Credentials')
+
+    const token = this.authService.generateJWTToken({
+      id: user.id,
+      email: user.email,
+      username: user.username,
+    })
+
+    return { user, token }
+  }
 }

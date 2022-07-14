@@ -4,37 +4,38 @@
 # -----------------------------------------------
 
 type Mutation {
-  signin(userSigninInput: UserSigninInput!): UserWithToken!
-  signup(userSignupInput: UserSignupInput!): UserWithToken!
+	signin(userSigninInput: UserSigninInput!): UserWithToken!
+	signup(userSignupInput: UserSignupInput!): UserWithToken!
 }
 
 type Query {
-  me: User!
+	me: User!
+	users(limit: Float!, skip: Float!): [User!]!
 }
 
 type User {
-  email: String!
-  firstName: String!
-  id: ID!
-  lastName: String!
-  name: String!
-  username: String!
+	email: String!
+	firstName: String!
+	id: ID!
+	lastName: String!
+	name: String!
+	username: String!
 }
 
 input UserSigninInput {
-  emailOrUsername: String!
-  password: String!
+	emailOrUsername: String!
+	password: String!
 }
 
 input UserSignupInput {
-  email: String!
-  firstName: String!
-  lastName: String!
-  password: String!
-  username: String!
+	email: String!
+	firstName: String!
+	lastName: String!
+	password: String!
+	username: String!
 }
 
 type UserWithToken {
-  token: String!
-  user: User!
+	token: String!
+	user: User!
 }
