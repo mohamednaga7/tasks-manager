@@ -18,7 +18,7 @@ import { CreateTicketInput } from '../types/create-ticket-input.type'
 import { UpdateTicketInput } from '../types/update-ticket-input.type'
 
 @Resolver(Ticket)
-export class UsersResolver {
+export class TicketsResolver {
   usersService = Container.get(UsersService)
   ticketsService = Container.get(TicketsService)
 
@@ -72,10 +72,12 @@ export class UsersResolver {
     if (!ctx.req.session.user) {
       throw new Error("You're not authorized to do this")
     }
-    return this.ticketsService.updateTicket(
+    const updatedTicket = await this.ticketsService.updateTicket(
       ctx.req.session.user,
       ticketId,
       updateTicketInput,
     )
+
+    return updatedTicket
   }
 }
