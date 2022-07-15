@@ -8,9 +8,16 @@ interface Props {
 	onChange: (value: string) => void;
 	options?: { value: string; label: string }[];
 	emptyLabel: string;
+	disabled?: boolean;
 }
 
-export const Select = ({ value, options, onChange, emptyLabel }: Props) => {
+export const Select = ({
+	value,
+	options,
+	onChange,
+	emptyLabel,
+	disabled,
+}: Props) => {
 	const [showList, setShowList] = useState(false);
 	const wrapperRef = useRef(null);
 	useOutsideAlerter(wrapperRef, () => setShowList(false));
@@ -22,9 +29,13 @@ export const Select = ({ value, options, onChange, emptyLabel }: Props) => {
 	return (
 		<div className='w-96 flex flex-col relative' ref={wrapperRef}>
 			<div
-				className='bg-gray-200 py-2 px-4 rounded-lg flex justify-between cursor-pointer items-center hover:bg-gray-300'
+				className={`py-2 px-4 rounded-lg flex justify-between items-center ${
+					disabled
+						? 'bg-gray-400 text-gray-600'
+						: 'cursor-pointer bg-gray-200 hover:bg-gray-300'
+				}`}
 				onClick={() => {
-					setShowList(true);
+					!disabled && setShowList(true);
 				}}
 			>
 				<span>
@@ -36,7 +47,7 @@ export const Select = ({ value, options, onChange, emptyLabel }: Props) => {
 				<FontAwesomeIcon icon={faChevronDown} />
 			</div>
 			<div
-				className={`absolute top-full flex mt-4 flex-col overflow-y-hidden w-96 border rounded-md transition-all duration-300 ${
+				className={`absolute top-full flex mt-4 bg-white z-20 flex-col overflow-y-hidden w-96 border rounded-md transition-all duration-300 ${
 					showList
 						? 'max-h-[19rem] opacity-100 visible'
 						: 'h-0 opacity-0 hidden'

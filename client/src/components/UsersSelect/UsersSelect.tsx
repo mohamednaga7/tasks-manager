@@ -7,9 +7,10 @@ import React, { useMemo } from 'react';
 interface Props {
 	value?: string;
 	onChange: (selectedUser: string) => void;
+	disabled?: boolean;
 }
 
-export const UsersSelect = ({ value, onChange }: Props) => {
+export const UsersSelect = ({ value, onChange, disabled }: Props) => {
 	const { data: usersData } = useQuery<getUsers>(getUsersQuery);
 
 	const usersOptions = useMemo(
@@ -24,6 +25,7 @@ export const UsersSelect = ({ value, onChange }: Props) => {
 			emptyLabel='Unassigned'
 			options={usersOptions || []}
 			onChange={onChange}
+			disabled={disabled}
 		/>
 	);
 };

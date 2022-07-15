@@ -42,6 +42,7 @@ export const TicketDetailsPage = () => {
 		data: historyData,
 		loading: historyLoading,
 		error: historyError,
+		refetch: historyRefetch,
 	} = useQuery<getTicketHistory, getTicketHistoryVariables>(
 		getTicketHistoryQuery,
 		{
@@ -49,14 +50,15 @@ export const TicketDetailsPage = () => {
 		}
 	);
 
-	const [submitUpdateTicket] = useMutation<updateTicket, updateTicketVariables>(
-		updateTicketMutation,
-		{
-			onCompleted: () => {
-				refetch();
-			},
-		}
-	);
+	const [submitUpdateTicket, { loading: updatingTicket }] = useMutation<
+		updateTicket,
+		updateTicketVariables
+	>(updateTicketMutation, {
+		onCompleted: () => {
+			refetch();
+			historyRefetch();
+		},
+	});
 
 	const handleChangeStatus = (newStatus: string) => {
 		submitUpdateTicket({
@@ -149,6 +151,7 @@ export const TicketDetailsPage = () => {
 								options={statusOptions || []}
 								onChange={handleChangeStatus}
 								emptyLabel='Select a status'
+								disabled={loading || historyLoading || updatingTicket}
 							/>
 						</div>
 						<hr />
@@ -157,6 +160,7 @@ export const TicketDetailsPage = () => {
 							<UsersSelect
 								value={data.ticket.assignedUser?.id || ''}
 								onChange={handleChangeAssignedUser}
+								disabled={loading || historyLoading || updatingTicket}
 							/>
 						</div>
 						<hr />
@@ -167,18 +171,24 @@ export const TicketDetailsPage = () => {
 									{moment(data.ticket.createdAt).format('DD/MM/YYYY - hh:mm')}
 								</span>
 							</span>
-							<span className='mt-5'>
-								Ticket updated at:{' '}
-								<span className='ml-2 text-gray-500 font-bold'>
-									{moment(data.ticket.updatedAt).format('DD/MM/YYYY - hh:mm')}
-								</span>
-							</span>
-							<span className='mt-5'>
-								Last updated by:{' '}
-								<span className='ml-2 capitalize text-gray-600 font-bold'>
-									{data.ticket.lastUpdatedByUser?.name}
-								</span>
-							</span>
+							{data.ticket.lastUpdatedByUser && (
+								<>
+									<span className='mt-5'>
+										Ticket updated at:{' '}
+										<span className='ml-2 text-gray-500 font-bold'>
+											{moment(data.ticket.updatedAt).format(
+												'DD/MM/YYYY - hh:mm'
+											)}
+										</span>
+									</span>
+									<span className='mt-5'>
+										Last updated by:{' '}
+										<span className='ml-2 capitalize text-gray-600 font-bold'>
+											{data.ticket.lastUpdatedByUser?.name}
+										</span>
+									</span>
+								</>
+							)}
 						</div>
 					</div>
 				</div>
