@@ -12,7 +12,7 @@ export const Header = () => {
 	};
 
 	return (
-		<div className='bg-blue-700 flex flex-col justify-between h-screen mr-1 pb-4'>
+		<div className='bg-blue-700 flex flex-col justify-between h-screen shadow-md shadow-gray-400 pb-4'>
 			<nav className='flex flex-col'>
 				<CustomNavLink to='/'>Home</CustomNavLink>
 				<CustomNavLink to='/board'>Board</CustomNavLink>
