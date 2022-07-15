@@ -21,6 +21,12 @@ export interface getTicketDetails_ticket_lastUpdatedByUser {
   name: string;
 }
 
+export interface getTicketDetails_ticket_assignedUser {
+  __typename: "User";
+  id: string;
+  name: string;
+}
+
 export interface getTicketDetails_ticket {
   __typename: "Ticket";
   id: string;
@@ -29,6 +35,7 @@ export interface getTicketDetails_ticket {
   status: TicketStatus;
   author: getTicketDetails_ticket_author;
   lastUpdatedByUser: getTicketDetails_ticket_lastUpdatedByUser | null;
+  assignedUser: getTicketDetails_ticket_assignedUser | null;
   createdAt: any;
   updatedAt: any;
 }

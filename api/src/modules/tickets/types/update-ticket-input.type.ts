@@ -17,5 +17,5 @@ export class UpdateTicketInput {
 
   @Field((_type) => ID, { nullable: true })
   @IsString()
-  assigneeId?: string
+  assignedUserId?: string
 }

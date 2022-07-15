@@ -6,15 +6,16 @@ import { TicketStatus } from 'types/ticket-status.model';
 
 interface Props {
 	value: string;
-	onChange: (value: TicketStatus) => void;
-	options?: { value: TicketStatus; label: string }[];
+	onChange: (value: string) => void;
+	options?: { value: string; label: string }[];
+	emptyLabel: string;
 }
 
-export const Select = ({ value, options, onChange }: Props) => {
+export const Select = ({ value, options, onChange, emptyLabel }: Props) => {
 	const [showList, setShowList] = useState(false);
 	const wrapperRef = useRef(null);
 	useOutsideAlerter(wrapperRef, () => setShowList(false));
-	const handleChange = (selectedValue: TicketStatus) => () => {
+	const handleChange = (selectedValue: string) => () => {
 		if (value === selectedValue) return;
 		onChange(selectedValue);
 		setShowList(false);
@@ -28,9 +29,10 @@ export const Select = ({ value, options, onChange }: Props) => {
 				}}
 			>
 				<span>
-					{options &&
+					{(options &&
 						options.length &&
-						options.find((option) => option.value === value)?.label}
+						options.find((option) => option.value === value)?.label) ||
+						emptyLabel}
 				</span>
 				<FontAwesomeIcon icon={faChevronDown} />
 			</div>

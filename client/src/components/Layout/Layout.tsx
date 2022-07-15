@@ -3,7 +3,7 @@ import React from 'react';
 
 export const Layout = ({ children }: React.PropsWithChildren) => {
 	return (
-		<div className='flex'>
+		<div className='flex min-h-full'>
 			<Header />
 			{children}
 		</div>

@@ -46,7 +46,9 @@ export class TicketsResolver {
 
   @FieldResolver((_type) => User, { nullable: true })
   assignedUser(@Root() parent: Ticket) {
-    return parent.assigneeId && this.usersService.getUser(parent.assigneeId)
+    return (
+      parent.assignedUserId && this.usersService.getUser(parent.assignedUserId)
+    )
   }
 
   @FieldResolver((_type) => User, { nullable: true })

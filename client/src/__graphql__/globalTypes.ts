@@ -17,7 +17,7 @@ export enum TicketStatus {
 }
 
 export interface UpdateTicketInput {
-  assigneeId?: string | null;
+  assignedUserId?: string | null;
   description?: string | null;
   status?: TicketStatus | null;
   title?: string | null;

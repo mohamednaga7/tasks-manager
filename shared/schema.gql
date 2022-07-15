@@ -26,12 +26,12 @@ type Query {
   ticket(ticketId: String!): Ticket!
   ticketHistory(ticketId: String!): [TicketHistory!]!
   tickets(limit: Float, skip: Float): [Ticket!]!
-  users(limit: Float!, skip: Float!): [User!]!
+  users(limit: Float, skip: Float): [User!]!
 }
 
 type Ticket {
   assignedUser: User
-  assigneeId: ID
+  assignedUserId: ID
   author: User!
   authorId: ID!
   closedAt: DateTime!
@@ -65,7 +65,7 @@ enum TicketStatus {
 }
 
 input UpdateTicketInput {
-  assigneeId: ID
+  assignedUserId: ID
   description: String
   status: TicketStatus
   title: String

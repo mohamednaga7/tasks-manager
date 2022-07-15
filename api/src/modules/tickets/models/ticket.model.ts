@@ -21,7 +21,7 @@ export class Ticket implements Partial<PrismaTicket> {
   authorId: string
 
   @Field((_type) => ID, { nullable: true })
-  assigneeId?: string
+  assignedUserId?: string | null
 
   @Field((_type) => String, { nullable: true })
   lastUpdatedByUserId?: string | null

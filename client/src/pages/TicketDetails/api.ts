@@ -15,6 +15,10 @@ export const getTicketDetailsQuery = gql`
 				id
 				name
 			}
+			assignedUser {
+				id
+				name
+			}
 			createdAt
 			updatedAt
 		}
@@ -38,6 +42,29 @@ export const updateTicketMutation = gql`
 			}
 			createdAt
 			updatedAt
+		}
+	}
+`;
+
+export const getTicketHistoryQuery = gql`
+	query getTicketHistory($ticketId: String!) {
+		ticketHistory(ticketId: $ticketId) {
+			id
+			message
+			updatingUser {
+				id
+				name
+			}
+			createdAt
+		}
+	}
+`;
+
+export const getUsersQuery = gql`
+	query getUsers {
+		users {
+			id
+			name
 		}
 	}
 `;

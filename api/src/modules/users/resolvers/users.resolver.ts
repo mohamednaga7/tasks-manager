@@ -28,7 +28,10 @@ export class UsersResolver {
 
   @Query((_returns) => [User])
   @Authorized()
-  async users(@Arg('limit') limit: number, @Arg('skip') skip: number) {
+  async users(
+    @Arg('limit', { nullable: true }) limit?: number,
+    @Arg('skip', { nullable: true }) skip?: number,
+  ) {
     return this.usersService.getUsers({ limit, skip })
   }
 

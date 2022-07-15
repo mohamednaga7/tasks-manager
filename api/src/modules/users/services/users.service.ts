@@ -36,7 +36,6 @@ export class UsersService {
       skip: skip,
       orderBy: {
         firstName: 'asc',
-        lastName: 'asc',
       },
     })
   }

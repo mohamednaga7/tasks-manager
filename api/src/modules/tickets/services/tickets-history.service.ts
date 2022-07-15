@@ -52,8 +52,10 @@ export class TicketsHistoryService {
         return `changed the ticket title to ${ticket.title}`
       case 'description':
         return `changed the ticket description to ${ticket.description}`
-      case 'assigneeId':
-        const assignedUser = await this.usersService.getUser(ticket.assigneeId!)
+      case 'assignedUserId':
+        const assignedUser = await this.usersService.getUser(
+          ticket.assignedUserId!,
+        )
         return `assigned the ticket to ${assignedUser.firstName} ${assignedUser.lastName}`
       default:
         return `updated the ticket`
