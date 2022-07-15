@@ -59,12 +59,3 @@ export const getTicketHistoryQuery = gql`
 		}
 	}
 `;
-
-export const getUsersQuery = gql`
-	query getUsers {
-		users {
-			id
-			name
-		}
-	}
-`;

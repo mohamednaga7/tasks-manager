@@ -1,8 +1,8 @@
 import { useQuery } from '@apollo/client';
 import { Select } from 'components/shared/inputs/Select/Select';
-import { getUsersQuery } from 'pages/TicketDetails/api';
-import { getUsers } from 'pages/TicketDetails/__generated__/getUsers';
 import React, { useMemo } from 'react';
+import { getUsersQuery } from './api';
+import { getUsers } from './__generated__/getUsers';
 
 interface Props {
 	value?: string;
