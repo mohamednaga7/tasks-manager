@@ -16,6 +16,12 @@ export enum TicketStatus {
   TODO = "TODO",
 }
 
+export interface CreateTicketInput {
+  assignedUserId?: string | null;
+  description: string;
+  title: string;
+}
+
 export interface UpdateTicketInput {
   assignedUserId?: string | null;
   description?: string | null;

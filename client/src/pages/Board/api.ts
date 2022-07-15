@@ -17,3 +17,18 @@ export const getAllTicketsQuery = gql`
 		}
 	}
 `;
+
+export const createNewTicketMutation = gql`
+	mutation addNewTicket($input: CreateTicketInput!) {
+		createTicket(input: $input) {
+			id
+			title
+			status
+			description
+			assignedUser {
+				id
+				name
+			}
+		}
+	}
+`;

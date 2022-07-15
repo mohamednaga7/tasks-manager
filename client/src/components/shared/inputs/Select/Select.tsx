@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useOutsideAlerter } from 'hooks/useOutsideAlerter';
-import { TicketStatus } from 'types/ticket-status.model';
 
 interface Props {
 	value: string;

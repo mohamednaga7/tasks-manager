@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 import { Select } from 'components/shared/inputs/Select/Select';
+import { UsersSelect } from 'components/UsersSelect/UsersSelect';
 import moment from 'moment';
 import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
@@ -10,7 +11,6 @@ import { getAvailableTicketStatusChanges } from 'utils/ticket-status-flow';
 import {
 	getTicketDetailsQuery,
 	getTicketHistoryQuery,
-	getUsersQuery,
 	updateTicketMutation,
 } from './api';
 import {
@@ -21,7 +21,6 @@ import {
 	getTicketHistory,
 	getTicketHistoryVariables,
 } from './__generated__/getTicketHistory';
-import { getUsers } from './__generated__/getUsers';
 import {
 	updateTicket,
 	updateTicketVariables,
@@ -49,8 +48,6 @@ export const TicketDetailsPage = () => {
 			variables: { ticketId: id! },
 		}
 	);
-
-	const { data: usersData } = useQuery<getUsers>(getUsersQuery);
 
 	const [submitUpdateTicket] = useMutation<updateTicket, updateTicketVariables>(
 		updateTicketMutation,
@@ -100,12 +97,6 @@ export const TicketDetailsPage = () => {
 				  ]
 				: [],
 		[data]
-	);
-
-	const usersOptions = useMemo(
-		() =>
-			usersData?.users.map((user) => ({ value: user.id, label: user.name })),
-		[usersData]
 	);
 
 	return (
@@ -163,10 +154,8 @@ export const TicketDetailsPage = () => {
 						<hr />
 						<div className='flex flex-col mb-4 mt-4'>
 							<span>Assigned User</span>
-							<Select
+							<UsersSelect
 								value={data.ticket.assignedUser?.id || ''}
-								emptyLabel='Unassigned'
-								options={usersOptions || []}
 								onChange={handleChangeAssignedUser}
 							/>
 						</div>

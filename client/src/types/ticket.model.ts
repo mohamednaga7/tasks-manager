@@ -12,7 +12,7 @@ export interface Ticket {
 
 	author?: User;
 
-	assigneeId?: string;
+	assignedUserId?: string;
 
 	createdAt?: Date;
 

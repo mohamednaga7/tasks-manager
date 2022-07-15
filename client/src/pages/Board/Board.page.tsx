@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
+import { AddEditTicket } from 'components/AddEditTicket/AddEditTicket';
 import { BoardColumn } from 'components/BoardColumn/BoardColumn.component';
-import React from 'react';
+import React, { useState } from 'react';
 import { TicketStatus } from 'types/ticket-status.model';
 import { getAllTicketsQuery } from './api';
 import {
@@ -9,22 +10,34 @@ import {
 } from './__generated__/getAllTickets';
 
 export const BoardPage = () => {
-	const { data, loading } = useQuery<getAllTickets, getAllTicketsVariables>(
-		getAllTicketsQuery,
-		{
-			variables: {
-				limit: 100,
-			},
-		}
-	);
+	const [showAddTicket, setShowAddTicket] = useState(false);
+	const { data, loading, refetch } = useQuery<
+		getAllTickets,
+		getAllTicketsVariables
+	>(getAllTicketsQuery, {
+		variables: {
+			limit: 100,
+		},
+	});
 	return (
 		<div className='w-full pt-5 px-4 overflow-x-scroll h-screen flex flex-col'>
+			{showAddTicket && (
+				<AddEditTicket
+					onClose={() => setShowAddTicket(false)}
+					refetch={refetch}
+				/>
+			)}
 			<div className='flex justify-between mb-4 items-center'>
 				<h4 className='text-lg'>
 					Total of <span className='font-bold'>{data?.tickets.length}</span>{' '}
 					tickets
 				</h4>
-				<button className='py-3 px-5 bg-blue-700 rounded-sm text-white cursor-pointer shadow-md shadow-gray-400 hover:bg-blue-800 hover:shadow-gray-300'>
+				<button
+					onClick={() => {
+						setShowAddTicket(true);
+					}}
+					className='py-3 px-5 bg-blue-700 rounded-sm text-white cursor-pointer shadow-md shadow-gray-400 hover:bg-blue-800 hover:shadow-gray-300'
+				>
 					Add Ticket
 				</button>
 			</div>
