@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useOutsideAlerter } from 'hooks/useOutsideAlerter';
@@ -11,13 +11,11 @@ interface Props {
 }
 
 export const Select = ({ value, options, onChange }: Props) => {
-	const [showList, setShowList] = useState(true);
+	const [showList, setShowList] = useState(false);
 	const wrapperRef = useRef(null);
 	useOutsideAlerter(wrapperRef, () => setShowList(false));
 	const handleChange = (selectedValue: TicketStatus) => () => {
-		if (value === selectedValue) {
-			return;
-		}
+		if (value === selectedValue) return;
 		onChange(selectedValue);
 		setShowList(false);
 	};
