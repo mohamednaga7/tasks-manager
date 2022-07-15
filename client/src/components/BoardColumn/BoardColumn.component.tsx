@@ -24,13 +24,10 @@ export const BoardColumn = ({ tickets, loading, title, status }: Props) => {
 			<div className='bg-gray-200 shadow-sm shadow-gray-300 py-4 px-5 mb-3'>
 				<h4>{title}</h4>
 			</div>
-			{loading ? (
-				<div></div>
-			) : (
-				<div className='flex flex-col bg-gray-100 rounded-sm shadow-md shadow-gray-300 p-4 h-full'>
-					{ticketsList}
-				</div>
-			)}
+
+			<div className='flex flex-col bg-gray-100 rounded-sm shadow-md shadow-gray-300 p-4 h-full'>
+				{ticketsList}
+			</div>
 		</div>
 	);
 };
