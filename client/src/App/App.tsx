@@ -11,6 +11,8 @@ import { useLazyQuery } from '@apollo/client';
 import { getCurrentUserQuery } from './api';
 import { GetCurrentUser } from './__generated__/GetCurrentUser';
 import { LoadingScreen } from 'components/LoadingScreen/LoadingScreen';
+import { TicketDetailsPage } from 'pages/TicketDetails/TicketDetails.page';
+import { Layout } from 'components/Layout/Layout';
 
 function App() {
 	const [user, setUser] = useState<User | null>(null);
@@ -58,7 +60,14 @@ function App() {
 					<LoadingScreen />
 				) : (
 					<Routes>
-						<Route path='/' element={<ProtectedRoute cookie={authCookie} />}>
+						<Route
+							path='/'
+							element={
+								<Layout>
+									<ProtectedRoute cookie={authCookie} />
+								</Layout>
+							}
+						>
 							<Route path='/' element={<HomePage />} />
 						</Route>
 						<Route
@@ -71,11 +80,25 @@ function App() {
 						/>
 						<Route
 							path='/board'
-							element={<ProtectedRoute cookie={authCookie} />}
+							element={
+								<Layout>
+									<ProtectedRoute cookie={authCookie} />
+								</Layout>
+							}
 						>
 							<Route path='/board' element={<Boardpage />} />
 						</Route>
-						<Route path='/*' element={<Navigate to='/' />} />
+						<Route
+							path='/tickets/:id'
+							element={
+								<Layout>
+									<ProtectedRoute cookie={authCookie} />
+								</Layout>
+							}
+						>
+							<Route path='/tickets/:id' element={<TicketDetailsPage />} />
+						</Route>
+						<Route path='/*' element={<Navigate to='/' replace />} />
 					</Routes>
 				)}
 			</>

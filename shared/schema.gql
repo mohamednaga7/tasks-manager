@@ -38,6 +38,8 @@ type Ticket {
   createdAt: DateTime!
   description: String!
   id: ID!
+  lastUpdatedByUser: User
+  lastUpdatedByUserId: String
   status: TicketStatus!
   title: String!
   updatedAt: DateTime!

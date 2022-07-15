@@ -49,6 +49,13 @@ export class TicketsResolver {
     return parent.assigneeId && this.usersService.getUser(parent.assigneeId)
   }
 
+  @FieldResolver((_type) => User, { nullable: true })
+  async lastUpdatedByUser(@Root() parent: Ticket): Promise<User | null> {
+    return parent.lastUpdatedByUserId
+      ? this.usersService.getUser(parent.lastUpdatedByUserId)
+      : null
+  }
+
   @Mutation((_returns) => Ticket)
   @Authorized()
   createTicket(
@@ -77,6 +84,7 @@ export class TicketsResolver {
     const updatedTicket = await this.ticketsService.updateTicket(
       ticketId,
       updateTicketInput,
+      ctx.req.session.user,
     )
 
     const updatedField = Object.keys(updateTicketInput)[0] as keyof Ticket

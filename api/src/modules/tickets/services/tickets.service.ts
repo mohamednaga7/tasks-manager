@@ -43,6 +43,7 @@ export class TicketsService {
   public async updateTicket(
     ticketId: string,
     updateTicketInput: UpdateTicketInput,
+    currentUser: User,
   ): Promise<Ticket> {
     const ticket = await this.prismaClient.ticket.findUniqueOrThrow({
       where: {
@@ -75,6 +76,7 @@ export class TicketsService {
       },
       data: {
         ...updateTicketInput,
+        lastUpdatedByUserId: currentUser.id,
       },
     })
   }

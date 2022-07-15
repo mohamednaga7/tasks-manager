@@ -7,6 +7,22 @@
 // START Enums and Input Objects
 //==============================================================
 
+export enum TicketStatus {
+  BLOCKED = "BLOCKED",
+  DEPLOYED = "DEPLOYED",
+  DONE = "DONE",
+  IN_PROGRESS = "IN_PROGRESS",
+  IN_QA = "IN_QA",
+  TODO = "TODO",
+}
+
+export interface UpdateTicketInput {
+  assigneeId?: string | null;
+  description?: string | null;
+  status?: TicketStatus | null;
+  title?: string | null;
+}
+
 export interface UserSigninInput {
   emailOrUsername: string;
   password: string;
