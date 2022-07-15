@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyledCard } from './Styles';
 
 interface Props {
 	title: string;
@@ -9,7 +8,7 @@ interface Props {
 
 export const DashboardCard = ({ title, value, onClick }: Props) => {
 	return (
-		<StyledCard
+		<div
 			className='last-of-type:border-0 border-r min-w-[11rem] py-3 pl-2 px-5 cursor-pointer transition-all duration-300 group'
 			onClick={onClick}
 		>
@@ -24,6 +23,6 @@ export const DashboardCard = ({ title, value, onClick }: Props) => {
 					Ticket{value !== 1 && 's'}
 				</span>
 			</div>
-		</StyledCard>
+		</div>
 	);
 };
