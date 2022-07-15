@@ -21,7 +21,16 @@ export const SignupComponent = () => {
 
 	return (
 		<div>
-			{error && <ErrorMessage title='Signup Error' body={error.message} />}
+			{error && (
+				<ErrorMessage
+					title='Signin Error'
+					body={
+						error.message === 'Failed to fetch'
+							? 'Error Signing up, please try again later'
+							: error.message
+					}
+				/>
+			)}
 			<Formik
 				initialValues={{
 					firstName: '',

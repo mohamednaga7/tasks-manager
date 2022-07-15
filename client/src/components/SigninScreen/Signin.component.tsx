@@ -25,7 +25,16 @@ export const SigninComponent = ({ setUser }: Props) => {
 	}
 	return (
 		<div>
-			{error && <ErrorMessage title='Signin Error' body={error.message} />}
+			{error && (
+				<ErrorMessage
+					title='Signin Error'
+					body={
+						error.message === 'Failed to fetch'
+							? 'Error Signing in, please try again later'
+							: error.message
+					}
+				/>
+			)}
 			<Formik
 				initialValues={{
 					emailOrUsername: '',

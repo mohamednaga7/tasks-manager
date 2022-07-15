@@ -45,7 +45,7 @@ function App() {
 	}, []);
 
 	useEffect(() => {
-		if (error && authCookie) {
+		if (error && error.message !== 'Failed to fetch' && authCookie) {
 			Cookies.remove('sid');
 			setUser(null);
 			navigate('/signin', { replace: true });
