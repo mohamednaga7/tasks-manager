@@ -56,7 +56,7 @@ function App() {
 	return (
 		<UserContext.Provider value={{ user, setUser, cookie: authCookie }}>
 			<div className='min-h-screen'>
-				{true ? (
+				{loading && !user && authCookie ? (
 					<LoadingScreen />
 				) : (
 					<Routes>
