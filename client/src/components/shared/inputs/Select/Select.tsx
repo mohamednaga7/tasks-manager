@@ -46,9 +46,8 @@ export const Select = ({ value, options, onChange, emptyLabel }: Props) => {
 				{options &&
 					options.length &&
 					options.map((option) => (
-						<>
+						<React.Fragment key={option.value}>
 							<div
-								key={option.value}
 								className={`py-3 px-4 ${
 									option.value !== value
 										? 'cursor-pointer hover:bg-blue-100'
@@ -59,7 +58,7 @@ export const Select = ({ value, options, onChange, emptyLabel }: Props) => {
 								{option.label}
 							</div>
 							<hr />
-						</>
+						</React.Fragment>
 					))}
 			</div>
 		</div>

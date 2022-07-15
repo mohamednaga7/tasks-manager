@@ -5,10 +5,7 @@ export const signinUserMutation = gql`
 		signin(userSigninInput: $input) {
 			user {
 				id
-				firstName
-				lastName
-				username
-				email
+				name
 			}
 		}
 	}

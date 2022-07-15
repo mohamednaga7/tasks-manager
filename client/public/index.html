@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#000000" />
+		<meta
+			name="description"
+			content="Web site created using create-react-app"
+		/>
+		<link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+		<!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
+		<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+		<!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -24,12 +24,104 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+		<style>
+			.loading-screen {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100vw;
+				height: 100vh;
+				background-color: rgb(30 64 175 / 1);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+
+			div.pad {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				font-size: 3rem;
+				font-weight: bold;
+				color: #fff;
+				padding: 0px 25px;
+				font-family: Goldman, sans-serif;
+				letter-spacing: 3px;
+				margin: 100px auto;
+			}
+
+			/*spin-X animation*/
+			.spin-X > span {
+				animation: spin-x 3s ease infinite;
+			}
+
+			@keyframes spin-x {
+				0%,
+				100% {
+					transform: rotateX(0deg);
+				}
+				50% {
+					transform: rotateX(180deg) translateY(40px);
+				}
+			}
+
+			.load-letter:nth-child(2) {
+				animation-delay: 0.1s;
+			}
+
+			.load-letter:nth-child(3) {
+				animation-delay: 0.2s;
+			}
+
+			.load-letter:nth-child(4) {
+				animation-delay: 0.3s;
+			}
+
+			.load-letter:nth-child(5) {
+				animation-delay: 0.4s;
+			}
+
+			.load-letter:nth-child(6) {
+				animation-delay: 0.5s;
+			}
+
+			.load-letter:nth-child(7) {
+				animation-delay: 0.6s;
+			}
+
+			.load-letter:nth-child(8) {
+				animation-delay: 0.7s;
+			}
+
+			.load-letter:nth-child(9) {
+				animation-delay: 0.8s;
+			}
+
+			.load-letter:nth-child(10) {
+				animation-delay: 0.9s;
+			}
+		</style>
+		<title>React App</title>
+	</head>
+	<body>
+		<noscript>You need to enable JavaScript to run this app.</noscript>
+		<div id="root">
+			<div class="loading-screen">
+				<div class="spin-X pad">
+					<span class="load-letter">L</span>
+					<span class="load-letter">O</span>
+					<span class="load-letter">A</span>
+					<span class="load-letter">D</span>
+					<span class="load-letter">I</span>
+					<span class="load-letter">N</span>
+					<span class="load-letter">G</span>
+					<span class="load-letter">.</span>
+					<span class="load-letter">.</span>
+					<span class="load-letter">.</span>
+				</div>
+			</div>
+		</div>
+		<!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -39,5 +131,5 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+	</body>
 </html>

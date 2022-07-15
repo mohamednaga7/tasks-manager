@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@apollo/client';
+import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 import { Select } from 'components/shared/inputs/Select/Select';
 import moment from 'moment';
 import React, { useMemo } from 'react';
@@ -49,11 +50,7 @@ export const TicketDetailsPage = () => {
 		}
 	);
 
-	const {
-		data: usersData,
-		loading: usersLoading,
-		error: usersError,
-	} = useQuery<getUsers>(getUsersQuery);
+	const { data: usersData } = useQuery<getUsers>(getUsersQuery);
 
 	const [submitUpdateTicket] = useMutation<updateTicket, updateTicketVariables>(
 		updateTicketMutation,
@@ -130,14 +127,26 @@ export const TicketDetailsPage = () => {
 							<hr />
 							<h3 className='font-bold tracking-wide my-5'>Ticket Changes</h3>
 							<div className='flex flex-col gap-1 h-80 overflow-y-scroll'>
-								{historyData?.ticketHistory.map((historyItem) => (
-									<div className='mb-3' key={historyItem.id}>
-										<span className='text-blue-700 capitalize cursor-pointer'>
-											{historyItem.updatingUser.name}
-										</span>{' '}
-										{historyItem.message}
-									</div>
-								))}
+								{historyLoading && <div>Fetching History...</div>}
+								{!historyLoading &&
+									historyData &&
+									historyData?.ticketHistory.map((historyItem) => (
+										<div className='mb-3' key={historyItem.id}>
+											<span className='text-blue-700 capitalize cursor-pointer'>
+												{historyItem.updatingUser.name}
+											</span>{' '}
+											{historyItem.message}
+										</div>
+									))}
+								{!historyLoading && !historyData && (
+									<div>No History Records Found</div>
+								)}
+								{!historyLoading && historyError && (
+									<ErrorMessage
+										title='Error Fetching History'
+										body='An error occurred while fetching the ticket changes history'
+									/>
+								)}
 							</div>
 						</div>
 					</div>
@@ -188,3 +197,5 @@ export const TicketDetailsPage = () => {
 		</div>
 	);
 };
+
+export default TicketDetailsPage;

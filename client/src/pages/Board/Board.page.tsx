@@ -8,7 +8,7 @@ import {
 	getAllTicketsVariables,
 } from './__generated__/getAllTickets';
 
-export const Boardpage = () => {
+export const BoardPage = () => {
 	const { data, loading } = useQuery<getAllTickets, getAllTicketsVariables>(
 		getAllTicketsQuery,
 		{
@@ -65,3 +65,5 @@ export const Boardpage = () => {
 		</div>
 	);
 };
+
+export default BoardPage;

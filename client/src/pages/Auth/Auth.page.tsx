@@ -29,3 +29,5 @@ export const AuthPage = ({ type }: Props) => {
 		</div>
 	);
 };
+
+export default AuthPage;

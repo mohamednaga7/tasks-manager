@@ -89,6 +89,7 @@ export const SignupComponent = () => {
 							label='First Name'
 							onChange={handleChange}
 							disabled={isSubmitting}
+							autofocus
 							onBlur={handleBlur}
 							value={values.firstName}
 							error={

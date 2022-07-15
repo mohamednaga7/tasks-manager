@@ -69,6 +69,7 @@ export const SigninComponent = ({ setUser }: Props) => {
 							type='text'
 							name='emailOrUsername'
 							label='Email / Username'
+							autofocus
 							onChange={handleChange}
 							onBlur={handleBlur}
 							disabled={isSubmitting}

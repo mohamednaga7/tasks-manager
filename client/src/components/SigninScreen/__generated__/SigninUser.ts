@@ -12,10 +12,7 @@ import { UserSigninInput } from "./../../../__graphql__/globalTypes";
 export interface SigninUser_signin_user {
   __typename: "User";
   id: string;
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
+  name: string;
 }
 
 export interface SigninUser_signin {
