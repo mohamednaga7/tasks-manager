@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { Service } from 'typedi'
+import { getStatusText } from '../../../utils/getStatusText'
 import { User } from '../../users/models/user.model'
 import { UsersService } from '../../users/services/users.service'
 import { TicketHistory } from '../models/ticket-history.model'
@@ -47,7 +48,7 @@ export class TicketsHistoryService {
   ): Promise<string> {
     switch (updatedField) {
       case 'status':
-        return `changed the ticket status to ${ticket.status}`
+        return `changed the ticket status to ${getStatusText(ticket.status)}`
       case 'title':
         return `changed the ticket title to ${ticket.title}`
       case 'description':
