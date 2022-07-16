@@ -178,6 +178,7 @@ export const TicketDetailsPage = () => {
 										label='Title'
 										type='text'
 										autofocus
+										disabled={loadingAny}
 										value={titleInputValue}
 										onChange={(e) => {
 											setTitleInputValue(e.target.value);
@@ -191,7 +192,8 @@ export const TicketDetailsPage = () => {
 										{data.ticket.title}
 									</h2>
 									<button
-										onClick={() => setEditingTitle(true)}
+										onClick={() => !loadingAny && setEditingTitle(true)}
+										disabled={loadingAny}
 										className='border-blue-700 border text-blue-700 opacity-0 rounded-full self-center w-6 h-6 group-hover:flex group-hover:opacity-100 justify-center items-center cursor-pointer hover:border-0 hover:bg-blue-700 hover:text-white transition-all'
 									>
 										<FontAwesomeIcon icon={faPen} fontSize='12px' />
@@ -205,6 +207,7 @@ export const TicketDetailsPage = () => {
 										label='Description'
 										value={descriptionInputValue}
 										autofocus
+										disabled={loadingAny}
 										onChange={(e) => {
 											setDescriptionInputValue(e.target.value);
 										}}
@@ -217,7 +220,8 @@ export const TicketDetailsPage = () => {
 										{data.ticket.description}
 									</p>
 									<button
-										onClick={() => setEditingDescription(true)}
+										onClick={() => !loadingAny && setEditingDescription(true)}
+										disabled={loadingAny}
 										className='border-blue-700 border text-blue-700 opacity-0 rounded-full self-center w-6 h-6 group-hover:flex group-hover:opacity-100 justify-center items-center cursor-pointer hover:border-0 hover:bg-blue-700 hover:text-white transition-all'
 									>
 										<FontAwesomeIcon icon={faPen} fontSize='12px' />
