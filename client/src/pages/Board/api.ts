@@ -12,7 +12,10 @@ export const getAllTicketsQuery = gql`
 			author {
 				id
 				name
-				email
+			}
+			assignedUser {
+				id
+				name
 			}
 		}
 	}

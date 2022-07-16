@@ -19,7 +19,7 @@ export const TicketComponent = ({ ticket }: Props) => {
 					{moment(ticket.createdAt).format('DD/MM/yyyy')}
 				</span>
 				<span className='capitalize text-gray-900 font-thin hover:font-normal transition-all duration-300'>
-					{ticket.author?.name}
+					{ticket.assignedUser?.name}
 				</span>
 			</div>
 		</Link>

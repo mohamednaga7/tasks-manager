@@ -5,7 +5,7 @@ import { getUsersQuery } from './api';
 import { getUsers } from './__generated__/getUsers';
 
 interface Props {
-	value?: string;
+	value: string;
 	onChange: (selectedUser: string) => void;
 	disabled?: boolean;
 }
@@ -21,7 +21,7 @@ export const UsersSelect = ({ value, onChange, disabled }: Props) => {
 
 	return (
 		<Select
-			value={value || ''}
+			value={value}
 			emptyLabel='Unassigned'
 			options={usersOptions || []}
 			onChange={onChange}

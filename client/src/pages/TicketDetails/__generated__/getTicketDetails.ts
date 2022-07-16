@@ -33,6 +33,7 @@ export interface getTicketDetails_ticket {
   title: string;
   description: string;
   status: TicketStatus;
+  assignedUserId: string | null;
   author: getTicketDetails_ticket_author;
   lastUpdatedByUser: getTicketDetails_ticket_lastUpdatedByUser | null;
   assignedUser: getTicketDetails_ticket_assignedUser | null;

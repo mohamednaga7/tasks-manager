@@ -55,8 +55,7 @@ export const TicketDetailsPage = () => {
 		updateTicketVariables
 	>(updateTicketMutation, {
 		onCompleted: () => {
-			refetch();
-			historyRefetch();
+			refetchAll();
 		},
 	});
 
@@ -100,6 +99,11 @@ export const TicketDetailsPage = () => {
 				: [],
 		[data]
 	);
+
+	const refetchAll = () => {
+		refetch();
+		historyRefetch();
+	};
 
 	return (
 		<div className='py-5 px-12 w-full min-h-full'>
@@ -165,26 +169,30 @@ export const TicketDetailsPage = () => {
 						</div>
 						<hr />
 						<div className='flex flex-col mb-4 mt-4'>
-							<span>
-								Ticket created at:{' '}
-								<span className='ml-2 text-gray-500 font-bold'>
+							<span className='text-gray-500'>
+								Created{' '}
+								<span className='ml-2 text-gray-800'>
 									{moment(data.ticket.createdAt).format('DD/MM/YYYY - hh:mm')}
+								</span>
+								<br />
+								by{' '}
+								<span className='text-gray-900 font-bold capitalize'>
+									{data.ticket.author.name}
 								</span>
 							</span>
 							{data.ticket.lastUpdatedByUser && (
 								<>
-									<span className='mt-5'>
-										Ticket updated at:{' '}
-										<span className='ml-2 text-gray-500 font-bold'>
+									<span className='mt-5 text-gray-500'>
+										Updated{' '}
+										<span className='ml-2 text-gray-800'>
 											{moment(data.ticket.updatedAt).format(
 												'DD/MM/YYYY - hh:mm'
 											)}
 										</span>
-									</span>
-									<span className='mt-5'>
-										Last updated by:{' '}
-										<span className='ml-2 capitalize text-gray-600 font-bold'>
-											{data.ticket.lastUpdatedByUser?.name}
+										<br />
+										by{' '}
+										<span className='text-gray-900 font-bold capitalize'>
+											{data.ticket.lastUpdatedByUser.name}
 										</span>
 									</span>
 								</>

@@ -7,6 +7,7 @@ export const getTicketDetailsQuery = gql`
 			title
 			description
 			status
+			assignedUserId
 			author {
 				id
 				name

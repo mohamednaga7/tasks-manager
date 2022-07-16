@@ -10,29 +10,36 @@ import {
 	addNewTicketVariables,
 } from 'pages/Board/__generated__/addNewTicket';
 import React, { useState } from 'react';
-import { Ticket } from 'types/ticket.model';
 
 interface Props {
 	onClose: () => void;
 	refetch: () => void;
-	ticket?: Ticket;
 }
 
-export const AddEditTicket = ({ onClose, ticket, refetch }: Props) => {
-	const [selectedUser, setSelectedUser] = useState<string | undefined>(
-		ticket?.assignedUserId || undefined
-	);
+export const AddEditTicket = ({ onClose, refetch }: Props) => {
+	const [selectedUser, setSelectedUser] = useState<string>('');
 
 	const [handleSubmitNewTicket] = useMutation<
 		addNewTicket,
 		addNewTicketVariables
 	>(createNewTicketMutation);
+
+	const handleAddTicket = async (input: addNewTicketVariables) => {
+		const { data } = await await handleSubmitNewTicket({
+			variables: input,
+		});
+		if (data?.createTicket) {
+			return true;
+		}
+		return false;
+	};
+
 	return (
-		<Modal title='Add Ticket' onClose={onClose}>
+		<Modal title={'Add Ticket'} onClose={onClose}>
 			<Formik
 				initialValues={{
-					title: ticket?.title || '',
-					description: ticket?.description || '',
+					title: '',
+					description: '',
 					assignedUserId: selectedUser,
 				}}
 				validate={(values) => {
@@ -47,16 +54,11 @@ export const AddEditTicket = ({ onClose, ticket, refetch }: Props) => {
 					return errors;
 				}}
 				onSubmit={async (input) => {
-					const { data } = await handleSubmitNewTicket({
-						variables: {
-							input: {
-								...input,
-								assignedUserId: selectedUser,
-							},
-						},
+					const responseSuccessful = await handleAddTicket({
+						input: { ...input, assignedUserId: selectedUser },
 					});
 
-					if (data?.createTicket) {
+					if (responseSuccessful) {
 						refetch();
 						onClose();
 					}
@@ -102,7 +104,10 @@ export const AddEditTicket = ({ onClose, ticket, refetch }: Props) => {
 								undefined
 							}
 						/>
-						<UsersSelect value={selectedUser} onChange={setSelectedUser} />
+						<UsersSelect
+							value={selectedUser || ''}
+							onChange={setSelectedUser}
+						/>
 
 						<div className='self-end'>
 							<button
@@ -118,7 +123,7 @@ export const AddEditTicket = ({ onClose, ticket, refetch }: Props) => {
 								type='submit'
 								disabled={isSubmitting}
 							>
-								{isSubmitting ? 'Submitting...' : 'add Ticket'}
+								{isSubmitting ? 'Submitting...' : 'Add Ticket'}
 							</button>
 						</div>
 					</form>

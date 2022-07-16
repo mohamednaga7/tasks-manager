@@ -13,7 +13,12 @@ export interface getAllTickets_tickets_author {
   __typename: "User";
   id: string;
   name: string;
-  email: string;
+}
+
+export interface getAllTickets_tickets_assignedUser {
+  __typename: "User";
+  id: string;
+  name: string;
 }
 
 export interface getAllTickets_tickets {
@@ -25,6 +30,7 @@ export interface getAllTickets_tickets {
   createdAt: any;
   updatedAt: any;
   author: getAllTickets_tickets_author;
+  assignedUser: getAllTickets_tickets_assignedUser | null;
 }
 
 export interface getAllTickets {

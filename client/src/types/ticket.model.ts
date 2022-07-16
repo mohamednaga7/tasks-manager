@@ -2,9 +2,9 @@ import { TicketStatus } from './ticket-status.model';
 import { User } from './user.model';
 
 export interface Ticket {
-	readonly id?: string;
+	readonly id: string;
 
-	title?: string;
+	title: string;
 
 	description?: string;
 
@@ -12,7 +12,9 @@ export interface Ticket {
 
 	author?: User;
 
-	assignedUserId?: string;
+	assignedUserId?: string | null;
+
+	assignedUser?: User | null;
 
 	createdAt?: Date;
 

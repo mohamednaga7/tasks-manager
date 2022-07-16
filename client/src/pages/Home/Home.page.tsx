@@ -60,11 +60,11 @@ export const HomePage = () => {
 	);
 	const navigateToBoard = () => navigate('/board');
 	return (
-		<div className='p-12'>
+		<div className='p-12 w-full'>
 			<h2 className='text-4xl font-bold capitalize text-gray-800'>
 				Welcome, {user?.name}
 			</h2>
-			<div className='mt-8'>
+			<div className='mt-8 w-full'>
 				{!loadingTickets && errorTickets && <div>Error fetching data</div>}
 				{loadingTickets ? (
 					<div>Loading Analytics...</div>
@@ -72,7 +72,7 @@ export const HomePage = () => {
 					<>
 						<h3 className='text-2xl mb-4'>Summary</h3>
 						<hr className='mb-6' />
-						<div className='flex gap-5 flex-wrap'>
+						<div className='flex gap-5 flex-wrap w-full'>
 							<DashboardCard
 								onClick={navigateToBoard}
 								title='To Do'
