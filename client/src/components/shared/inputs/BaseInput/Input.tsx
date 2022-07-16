@@ -7,7 +7,7 @@ interface Props {
 	name?: string;
 	id?: string;
 	className?: string;
-	onBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
+	onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 	error?: string;
 	label?: string;
 	disabled?: boolean;
@@ -15,15 +15,17 @@ interface Props {
 }
 
 export const Input = React.forwardRef(
-	({ error, autofocus, ...props }: Props) => {
+	({ error, autofocus, label, ...props }: Props) => {
 		return (
 			<div className='flex flex-col relative items-start w-full'>
-				<label
-					htmlFor={props.id || props.name}
-					className='text-gray-600 absolute -top-2 left-6 bg-white px-2 lowercase text-sm font-medium'
-				>
-					{props.label}
-				</label>
+				{label && (
+					<label
+						htmlFor={props.id || props.name}
+						className='text-gray-600 absolute -top-2 left-6 bg-white px-2 lowercase text-sm font-medium'
+					>
+						{label}
+					</label>
+				)}
 				<input
 					id={props.id || props.name}
 					autoFocus={autofocus}

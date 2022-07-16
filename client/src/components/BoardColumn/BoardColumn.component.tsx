@@ -17,7 +17,9 @@ export const BoardColumn = ({ tickets, loading, title, status }: Props) => {
 			<TicketComponent ticket={ticket} key={ticket.id} />
 		))
 	) : (
-		<h4>No Tickets Here</h4>
+		<h4 className='text-center'>
+			{loading ? 'Loading...' : 'No Tickets Here'}
+		</h4>
 	);
 	return (
 		<div className='flex flex-col w-80 h-full'>

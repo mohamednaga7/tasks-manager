@@ -1,9 +1,13 @@
 import { useMutation, useQuery } from '@apollo/client';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
+import { Input } from 'components/shared/inputs/BaseInput/Input';
 import { Select } from 'components/shared/inputs/Select/Select';
+import { TextArea } from 'components/shared/inputs/TextArea/TextArea';
 import { UsersSelect } from 'components/UsersSelect/UsersSelect';
 import moment from 'moment';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TicketStatus } from 'types/ticket-status.model';
 import { getStatusText } from 'utils/getStatusText';
@@ -28,15 +32,25 @@ import {
 
 export const TicketDetailsPage = () => {
 	const { id } = useParams();
+	const [editingTitle, setEditingTitle] = useState(false);
+	const [editingDescription, setEditingDescription] = useState(false);
+	const [titleInputValue, setTitleInputValue] = useState<string>('');
+	const [descriptionInputValue, setDescriptionInputValue] =
+		useState<string>('null');
 
-	const { data, loading, error, refetch } = useQuery<
-		getTicketDetails,
-		getTicketDetailsVariables
-	>(getTicketDetailsQuery, {
-		variables: {
-			id: id!,
-		},
-	});
+	const {
+		data,
+		loading: loadingTicket,
+		error,
+		refetch,
+	} = useQuery<getTicketDetails, getTicketDetailsVariables>(
+		getTicketDetailsQuery,
+		{
+			variables: {
+				id: id!,
+			},
+		}
+	);
 
 	const {
 		data: historyData,
@@ -50,6 +64,13 @@ export const TicketDetailsPage = () => {
 		}
 	);
 
+	useEffect(() => {
+		if (data && data.ticket) {
+			setTitleInputValue(data.ticket.title);
+			setDescriptionInputValue(data.ticket.description);
+		}
+	}, [data]);
+
 	const [submitUpdateTicket, { loading: updatingTicket }] = useMutation<
 		updateTicket,
 		updateTicketVariables
@@ -58,6 +79,8 @@ export const TicketDetailsPage = () => {
 			refetchAll();
 		},
 	});
+
+	const loadingAny = loadingTicket || historyLoading || updatingTicket;
 
 	const handleChangeStatus = (newStatus: string) => {
 		submitUpdateTicket({
@@ -76,6 +99,42 @@ export const TicketDetailsPage = () => {
 				ticketId: id!,
 				input: {
 					assignedUserId: newAssignedUserId,
+				},
+			},
+		});
+	};
+
+	const handleChangeTitle = () => {
+		setEditingTitle(false);
+		if (
+			!titleInputValue ||
+			loadingAny ||
+			titleInputValue === data!.ticket!.title
+		)
+			return;
+		submitUpdateTicket({
+			variables: {
+				ticketId: id!,
+				input: {
+					title: titleInputValue,
+				},
+			},
+		});
+	};
+
+	const handleChangeDescription = () => {
+		setEditingDescription(false);
+		if (
+			!descriptionInputValue ||
+			loadingAny ||
+			descriptionInputValue === data!.ticket!.description
+		)
+			return;
+		submitUpdateTicket({
+			variables: {
+				ticketId: id!,
+				input: {
+					description: descriptionInputValue,
 				},
 			},
 		});
@@ -107,17 +166,64 @@ export const TicketDetailsPage = () => {
 
 	return (
 		<div className='py-5 px-12 w-full min-h-full'>
-			{loading && <div>Loading...</div>}
+			{loadingTicket && <div>Loading...</div>}
 			{error && <div>Error! {error.message}</div>}
-			{!loading && data && (
+			{!loadingTicket && data && (
 				<div className='flex w-full min-h-full'>
 					<div className='flex-grow flex flex-col justify-between'>
 						<div>
-							<h2 className='text-2xl tracking-wide mb-8 capitalize'>
-								{data.ticket.title}
-							</h2>
+							{editingTitle ? (
+								<div className='max-w-6xl mb-8 mr-8'>
+									<Input
+										label='Title'
+										type='text'
+										autofocus
+										value={titleInputValue}
+										onChange={(e) => {
+											setTitleInputValue(e.target.value);
+										}}
+										onBlur={handleChangeTitle}
+									/>
+								</div>
+							) : (
+								<div className='flex justify-between transition-all group mb-8 rounded-md hover:bg-gray-200 py-2 px-4 mr-4'>
+									<h2 className='text-2xl tracking-wide capitalize'>
+										{data.ticket.title}
+									</h2>
+									<button
+										onClick={() => setEditingTitle(true)}
+										className='border-blue-700 border text-blue-700 opacity-0 rounded-full self-center w-6 h-6 group-hover:flex group-hover:opacity-100 justify-center items-center cursor-pointer hover:border-0 hover:bg-blue-700 hover:text-white transition-all'
+									>
+										<FontAwesomeIcon icon={faPen} fontSize='12px' />
+									</button>
+								</div>
+							)}
 
-							<p className='text-lg text-gray-700'>{data.ticket.description}</p>
+							{editingDescription ? (
+								<div className='max-w-6xl mr-8 '>
+									<TextArea
+										label='Description'
+										value={descriptionInputValue}
+										autofocus
+										onChange={(e) => {
+											setDescriptionInputValue(e.target.value);
+										}}
+										onBlur={handleChangeDescription}
+									/>
+								</div>
+							) : (
+								<div className='flex justify-between transition-all group rounded-md hover:bg-gray-200 py-2 px-4 mr-4'>
+									<p className='text-lg text-gray-700'>
+										{data.ticket.description}
+									</p>
+									<button
+										onClick={() => setEditingDescription(true)}
+										className='border-blue-700 border text-blue-700 opacity-0 rounded-full self-center w-6 h-6 group-hover:flex group-hover:opacity-100 justify-center items-center cursor-pointer hover:border-0 hover:bg-blue-700 hover:text-white transition-all'
+									>
+										<FontAwesomeIcon icon={faPen} fontSize='12px' />
+									</button>
+								</div>
+							)}
 						</div>
 
 						<div>
@@ -155,7 +261,7 @@ export const TicketDetailsPage = () => {
 								options={statusOptions || []}
 								onChange={handleChangeStatus}
 								emptyLabel='Select a status'
-								disabled={loading || historyLoading || updatingTicket}
+								disabled={loadingAny}
 							/>
 						</div>
 						<hr />
@@ -164,7 +270,7 @@ export const TicketDetailsPage = () => {
 							<UsersSelect
 								value={data.ticket.assignedUser?.id || ''}
 								onChange={handleChangeAssignedUser}
-								disabled={loading || historyLoading || updatingTicket}
+								disabled={loadingAny}
 							/>
 						</div>
 						<hr />

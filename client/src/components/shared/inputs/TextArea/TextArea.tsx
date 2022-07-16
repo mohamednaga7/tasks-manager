@@ -5,7 +5,7 @@ interface Props {
 	onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 	name?: string;
 	id?: string;
-	onBlur: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
+	onBlur?: (event: React.FocusEvent<HTMLTextAreaElement>) => void;
 	error?: string;
 	label?: string;
 	disabled?: boolean;
@@ -15,12 +15,14 @@ interface Props {
 export const TextArea = ({ label, autofocus, error, ...props }: Props) => {
 	return (
 		<div>
-			<label
-				htmlFor='message'
-				className='text-sm pl-2 font-medium text-gray-900'
-			>
-				{label}
-			</label>
+			{label && (
+				<label
+					htmlFor='message'
+					className='text-sm pl-2 font-medium text-gray-900'
+				>
+					{label}
+				</label>
+			)}
 			<textarea
 				rows={4}
 				id={props.id || props.name}
