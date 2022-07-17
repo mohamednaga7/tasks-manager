@@ -12,9 +12,6 @@ describe('Tickets Service', () => {
       create: jest.Mock<any, any>
       update: jest.Mock<any, any>
     }
-    ticketUpdateHistory: {
-      create: jest.Mock<any, any>
-    }
   } = {
     ticket: {
       findUniqueOrThrow: jest.fn(),
@@ -22,9 +19,6 @@ describe('Tickets Service', () => {
       findMany: jest.fn(),
       create: jest.fn(),
       update: jest.fn(),
-    },
-    ticketUpdateHistory: {
-      create: jest.fn(),
     },
   }
 
