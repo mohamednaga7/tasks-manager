@@ -26,6 +26,7 @@ type Query {
   ticket(ticketId: String!): Ticket!
   ticketHistory(ticketId: String!): [TicketHistory!]!
   tickets(limit: Float, skip: Float): [Ticket!]!
+  ticketsAnalytics: TicketsAnalytics!
   users(limit: Float, skip: Float): [User!]!
 }
 
@@ -62,6 +63,16 @@ enum TicketStatus {
   IN_PROGRESS
   IN_QA
   TODO
+}
+
+type TicketsAnalytics {
+  blockedTickets: Float!
+  deployedTickets: Float!
+  doneTickets: Float!
+  inProgressTickets: Float!
+  inQaTickets: Float!
+  todoTickets: Float!
+  totalTickets: Float!
 }
 
 input UpdateTicketInput {

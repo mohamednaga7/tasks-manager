@@ -3,6 +3,7 @@ import { Service } from 'typedi'
 import { User } from '../../users/models/user.model'
 import { Ticket } from '../models/ticket.model'
 import { CreateTicketInput } from '../types/create-ticket-input.type'
+import { TicketsAnalytics } from '../types/tickets-analytics.type'
 import { UpdateTicketInput } from '../types/update-ticket-input.type'
 import { ticketStatusFlow } from './ticket-status-flow'
 
@@ -38,6 +39,47 @@ export class TicketsService {
         authorId: currentUser.id,
       },
     })
+  }
+
+  public async getAnalytics(): Promise<TicketsAnalytics> {
+    const [
+      totalTickets,
+      todoTickets,
+      inProgressTickets,
+      blockedTickets,
+      inQaTickets,
+      doneTickets,
+      deployedTickets,
+    ] = await Promise.all([
+      await this.prismaClient.ticket.count(),
+      await this.prismaClient.ticket.count({
+        where: { status: TicketStatus.TODO },
+      }),
+      await this.prismaClient.ticket.count({
+        where: { status: TicketStatus.IN_PROGRESS },
+      }),
+      await this.prismaClient.ticket.count({
+        where: { status: TicketStatus.BLOCKED },
+      }),
+      await this.prismaClient.ticket.count({
+        where: { status: TicketStatus.IN_QA },
+      }),
+      await this.prismaClient.ticket.count({
+        where: { status: TicketStatus.DONE },
+      }),
+      await this.prismaClient.ticket.count({
+        where: { status: TicketStatus.DEPLOYED },
+      }),
+    ])
+    return {
+      totalTickets,
+      todoTickets,
+      inProgressTickets,
+      blockedTickets,
+      inQaTickets,
+      doneTickets,
+      deployedTickets,
+    }
   }
 
   public async updateTicket(

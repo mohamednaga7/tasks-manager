@@ -27,7 +27,7 @@ export const BoardColumn = ({ tickets, loading, title, status }: Props) => {
 				<h4>{title}</h4>
 			</div>
 
-			<div className='flex flex-col bg-gray-100 rounded-sm shadow-md shadow-gray-300 p-4 h-full'>
+			<div className='flex flex-col bg-gray-100 rounded-sm shadow-md shadow-gray-300 p-4 h-full overflow-y-scroll'>
 				{ticketsList}
 			</div>
 		</div>

@@ -17,6 +17,7 @@ import { UsersService } from '../../users/services/users.service'
 import { CreateTicketInput } from '../types/create-ticket-input.type'
 import { UpdateTicketInput } from '../types/update-ticket-input.type'
 import { TicketsHistoryService } from '../services/tickets-history.service'
+import { TicketsAnalytics } from '../types/tickets-analytics.type'
 
 @Resolver(Ticket)
 export class TicketsResolver {
@@ -28,6 +29,12 @@ export class TicketsResolver {
   @Authorized()
   async ticket(@Arg('ticketId') id: string): Promise<Ticket> {
     return this.ticketsService.getTicket(id)
+  }
+
+  @Query((_returns) => TicketsAnalytics)
+  @Authorized()
+  async ticketsAnalytics(): Promise<TicketsAnalytics> {
+    return this.ticketsService.getAnalytics()
   }
 
   @Query((_returns) => [Ticket])

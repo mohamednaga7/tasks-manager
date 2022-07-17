@@ -1,63 +1,20 @@
 import { useQuery } from '@apollo/client';
 import { DashboardCard } from 'components/DashboardCard/DashboardCard';
 import { UserContext } from 'context/UserContext';
-import { getAllTicketsQuery } from 'pages/Board/api';
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TicketStatus } from 'types/ticket-status.model';
-import { Ticket } from 'types/ticket.model';
+import { getTicketsAnalyticsQuery } from './api';
+import { TicketsAnalytics } from './__generated__/TicketsAnalytics';
 
 export const HomePage = () => {
 	const { user } = useContext(UserContext);
 	const navigate = useNavigate();
 	const {
-		data: ticketsData,
+		data: ticketAnalytics,
 		loading: loadingTickets,
 		error: errorTickets,
-	} = useQuery(getAllTicketsQuery);
+	} = useQuery<TicketsAnalytics>(getTicketsAnalyticsQuery);
 
-	const todoTickets = useMemo(
-		() =>
-			ticketsData?.tickets.filter(
-				(ticket: Ticket) => ticket.status === TicketStatus.TODO
-			),
-		[ticketsData]
-	);
-	const inProgressTickets = useMemo(
-		() =>
-			ticketsData?.tickets.filter(
-				(ticket: Ticket) => ticket.status === TicketStatus.IN_PROGRESS
-			),
-		[ticketsData]
-	);
-	const blockedTickets = useMemo(
-		() =>
-			ticketsData?.tickets.filter(
-				(ticket: Ticket) => ticket.status === TicketStatus.BLOCKED
-			),
-		[ticketsData]
-	);
-	const inQATickets = useMemo(
-		() =>
-			ticketsData?.tickets.filter(
-				(ticket: Ticket) => ticket.status === TicketStatus.IN_QA
-			),
-		[ticketsData]
-	);
-	const doneTickets = useMemo(
-		() =>
-			ticketsData?.tickets.filter(
-				(ticket: Ticket) => ticket.status === TicketStatus.DONE
-			),
-		[ticketsData]
-	);
-	const deployedTickets = useMemo(
-		() =>
-			ticketsData?.tickets.filter(
-				(ticket: Ticket) => ticket.status === TicketStatus.DEPLOYED
-			),
-		[ticketsData]
-	);
 	const navigateToBoard = () => navigate('/board');
 	return (
 		<div className='p-12 w-full'>
@@ -66,43 +23,47 @@ export const HomePage = () => {
 			</h2>
 			<div className='mt-8 w-full'>
 				{!loadingTickets && errorTickets && <div>Error fetching data</div>}
-				{loadingTickets ? (
-					<div>Loading Analytics...</div>
-				) : (
+				{loadingTickets && <div>Loading Analytics...</div>}
+				{!loadingTickets && !errorTickets && ticketAnalytics && (
 					<>
+						<h2 className='mb-6'>
+							You have a total of{' '}
+							<strong>{ticketAnalytics.ticketsAnalytics.totalTickets}</strong>{' '}
+							tickets
+						</h2>
 						<h3 className='text-2xl mb-4'>Summary</h3>
 						<hr className='mb-6' />
 						<div className='flex gap-5 flex-wrap w-full'>
 							<DashboardCard
 								onClick={navigateToBoard}
 								title='To Do'
-								value={todoTickets?.length}
+								value={ticketAnalytics.ticketsAnalytics.todoTickets}
 							/>
 
 							<DashboardCard
 								onClick={navigateToBoard}
 								title='In Progress'
-								value={inProgressTickets?.length}
+								value={ticketAnalytics.ticketsAnalytics.inProgressTickets}
 							/>
 							<DashboardCard
 								onClick={navigateToBoard}
 								title='Blocked'
-								value={blockedTickets?.length}
+								value={ticketAnalytics.ticketsAnalytics.blockedTickets}
 							/>
 							<DashboardCard
 								onClick={navigateToBoard}
 								title='In QA'
-								value={inQATickets?.length}
+								value={ticketAnalytics.ticketsAnalytics.inQaTickets}
 							/>
 							<DashboardCard
 								onClick={navigateToBoard}
 								title='Done'
-								value={doneTickets?.length}
+								value={ticketAnalytics.ticketsAnalytics.doneTickets}
 							/>
 							<DashboardCard
 								onClick={navigateToBoard}
 								title='Deployed'
-								value={deployedTickets?.length}
+								value={ticketAnalytics.ticketsAnalytics.deployedTickets}
 							/>
 						</div>
 						<hr className='my-6' />
