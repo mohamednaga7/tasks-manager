@@ -16,7 +16,7 @@ const root = ReactDOM.createRoot(
 );
 
 const link = createHttpLink({
-	uri: process.env.REACT_APP_API_URL,
+	uri: process.env.REACT_APP_API_URL || '/api/graphql',
 	credentials: 'include',
 });
 

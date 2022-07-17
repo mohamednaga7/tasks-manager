@@ -86,6 +86,12 @@ const main = async () => {
     cors: corsOptions,
   })
 
+  app.use(express.static(join(__dirname, '..', '..', 'client', 'build')))
+
+  app.get('*', (req, res) => {
+    res.sendFile(join(__dirname, '..', '..', 'client', 'build', 'index.html'))
+  })
+
   app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at https://localhost:${port}`)
   })
