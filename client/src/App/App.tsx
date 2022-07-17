@@ -29,6 +29,7 @@ function App() {
 		getCurrentUserQuery,
 		{
 			notifyOnNetworkStatusChange: true,
+			fetchPolicy: 'no-cache',
 		}
 	);
 
