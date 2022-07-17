@@ -1,4 +1,4 @@
-import { useMutation } from '@apollo/client';
+import { useApolloClient, useMutation } from '@apollo/client';
 import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 import { Input } from 'components/shared/inputs/BaseInput/Input';
 import { Success } from 'components/shared/SuccessComponent/Success.component';
@@ -15,6 +15,7 @@ interface Props {
 
 export const SigninComponent = ({ setUser }: Props) => {
 	const navigate = useNavigate();
+	const client = useApolloClient();
 	const [submitUserSignin, { error, data }] = useMutation<
 		SigninUser,
 		SigninUserVariables
@@ -54,6 +55,8 @@ export const SigninComponent = ({ setUser }: Props) => {
 					return errors;
 				}}
 				onSubmit={async (input) => {
+					client.clearStore();
+					client.cache.reset();
 					const { data } = await submitUserSignin({ variables: { input } });
 
 					if (data) {
