@@ -73,7 +73,7 @@ const main = async () => {
     context: ({
       req,
     }: ExpressContext & {
-      req: { session: { user?: User } }
+      req: { session: { user?: User; destroy: () => void } }
     }): ResolverContext => ({ req }),
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
   })

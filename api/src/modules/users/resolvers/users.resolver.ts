@@ -56,4 +56,10 @@ export class UsersResolver {
     ctx.req.session.user = signInResponse.user
     return signInResponse
   }
+
+  @Mutation((_returns) => Boolean)
+  logout(@Ctx() ctx: ResolverContext) {
+    ctx.req.session.destroy()
+    return true
+  }
 }

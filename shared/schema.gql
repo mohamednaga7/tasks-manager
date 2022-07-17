@@ -16,6 +16,7 @@ scalar DateTime
 
 type Mutation {
   createTicket(input: CreateTicketInput!): Ticket!
+  logout: Boolean!
   signin(userSigninInput: UserSigninInput!): UserWithToken!
   signup(userSignupInput: UserSignupInput!): UserWithToken!
   updateTicket(input: UpdateTicketInput!, ticketId: String!): Ticket!

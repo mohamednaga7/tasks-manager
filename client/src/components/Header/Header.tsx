@@ -1,14 +1,17 @@
+import { useMutation } from '@apollo/client';
 import { CustomNavLink } from 'components/CustomNavLink/CustomNavLink';
 import { UserContext } from 'context/UserContext';
-import Cookies from 'js-cookie';
 import React, { useContext } from 'react';
+import { logoutMutation } from './api';
 
 export const Header = () => {
-	const { user, setUser } = useContext(UserContext);
+	const { user, setUser, setCookie } = useContext(UserContext);
 
-	const handleLogout = () => {
-		// eslint-disable-next-line no-restricted-globals
-		Cookies.remove(`${window.location.origin}-sid`);
+	const [logoutUser] = useMutation(logoutMutation);
+
+	const handleLogout = async () => {
+		await logoutUser();
+		setCookie(null);
 		setUser(null);
 	};
 

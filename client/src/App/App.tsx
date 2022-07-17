@@ -28,7 +28,7 @@ function App() {
 	);
 	const navigate = useNavigate();
 
-	const [getCurrentuser, { loading, error }] = useLazyQuery<GetCurrentUser>(
+	const [getCurrentuser, { loading }] = useLazyQuery<GetCurrentUser>(
 		getCurrentUserQuery,
 		{
 			notifyOnNetworkStatusChange: true,
@@ -39,7 +39,13 @@ function App() {
 	useEffect(() => {
 		if (authCookie) {
 			(async () => {
-				const { data } = await getCurrentuser();
+				const { data, error } = await getCurrentuser();
+				if (error && error.message !== 'Failed to fetch') {
+					clearAuthCookie();
+					setAuthCookie(null);
+					setUser(null);
+					navigate('/signin', { replace: true });
+				}
 				if (data && data.me) {
 					setUser(data.me);
 				}
@@ -47,15 +53,6 @@ function App() {
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
-	useEffect(() => {
-		if (error && error.message !== 'Failed to fetch' && authCookie) {
-			clearAuthCookie();
-			setUser(null);
-			navigate('/signin', { replace: true });
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [error, authCookie]);
 
 	return (
 		<UserContext.Provider
