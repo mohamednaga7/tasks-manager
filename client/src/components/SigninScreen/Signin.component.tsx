@@ -4,7 +4,7 @@ import { Input } from 'components/shared/inputs/BaseInput/Input';
 import { Success } from 'components/shared/SuccessComponent/Success.component';
 import { Formik } from 'formik';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { User } from 'types/user.model';
 import { signinUserMutation } from './api';
 import { SigninUser, SigninUserVariables } from './__generated__/SigninUser';
@@ -114,6 +114,12 @@ export const SigninComponent = ({ setUser }: Props) => {
 					</form>
 				)}
 			</Formik>
+			<p className='mt-8 text-gray-500'>
+				don't have an account?{' '}
+				<Link to='/signup' className='text-blue-600 cursor-pointer'>
+					Signup
+				</Link>
+			</p>
 		</div>
 	);
 };

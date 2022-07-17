@@ -6,7 +6,7 @@ import { signupUserMutation } from './api';
 import { useMutation } from '@apollo/client';
 import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 import { Success } from '../shared/SuccessComponent/Success.component';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const SignupComponent = () => {
 	const navigate = useNavigate();
@@ -168,6 +168,12 @@ export const SignupComponent = () => {
 					</form>
 				)}
 			</Formik>
+			<p className='mt-8 text-gray-500'>
+				already have an account?,{' '}
+				<Link to='/signin' className='text-blue-600 cursor-pointer'>
+					sign in
+				</Link>
+			</p>
 		</div>
 	);
 };
