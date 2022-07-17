@@ -235,16 +235,32 @@ export const TicketDetailsPage = () => {
 							<h3 className='font-bold tracking-wide my-5'>Ticket Changes</h3>
 							<div className='flex flex-col gap-1 h-80 overflow-y-scroll'>
 								{historyLoading && <div>Fetching History...</div>}
-								{!historyLoading &&
-									historyData &&
-									historyData?.ticketHistory.map((historyItem) => (
-										<div className='mb-3' key={historyItem.id}>
-											<span className='text-blue-700 capitalize cursor-pointer'>
-												{historyItem.updatingUser.name}
-											</span>{' '}
-											{historyItem.message}
-										</div>
-									))}
+								{!historyLoading && historyData && (
+									<table className='mr-8'>
+										<tbody>
+											{historyData?.ticketHistory.map((historyItem, index) => (
+												<tr
+													key={historyItem.id}
+													className={(index % 2 === 0 && 'bg-gray-100') || ''}
+												>
+													<td className='p-3'>
+														<span className='text-blue-700 capitalize cursor-pointer'>
+															{historyItem.updatingUser.name}
+														</span>{' '}
+														<span>{historyItem.message}</span>
+													</td>
+													<td>
+														<span className='text-gray-500 text-sm'>
+															{moment(historyItem.createdAt).format(
+																'DD/MM/YYYY - hh:mm'
+															)}
+														</span>
+													</td>
+												</tr>
+											))}
+										</tbody>
+									</table>
+								)}
 								{!historyLoading && !historyData && (
 									<div>No History Records Found</div>
 								)}
