@@ -252,7 +252,7 @@ export const TicketDetailsPage = () => {
 													<td>
 														<span className='text-gray-500 text-sm'>
 															{moment(historyItem.createdAt).format(
-																'DD/MM/YYYY - hh:mm'
+																'DD/MM/YYYY - hh:mm a'
 															)}
 														</span>
 													</td>
@@ -298,7 +298,7 @@ export const TicketDetailsPage = () => {
 							<span className='text-gray-500'>
 								Created{' '}
 								<span className='ml-2 text-gray-800'>
-									{moment(data.ticket.createdAt).format('DD/MM/YYYY - hh:mm')}
+									{moment(data.ticket.createdAt).format('DD/MM/YYYY - hh:mm a')}
 								</span>
 								<br />
 								by{' '}
@@ -312,7 +312,7 @@ export const TicketDetailsPage = () => {
 										Updated{' '}
 										<span className='ml-2 text-gray-800'>
 											{moment(data.ticket.updatedAt).format(
-												'DD/MM/YYYY - hh:mm'
+												'DD/MM/YYYY - hh:mm a'
 											)}
 										</span>
 										<br />
