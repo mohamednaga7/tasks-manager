@@ -21,7 +21,10 @@ export const AuthPage = ({ type }: Props) => {
 					{type === AuthPageType.SIGNIN ? 'Sign in' : 'Sign up'}
 				</h2>
 				{type === AuthPageType.SIGNIN ? (
-					<SigninComponent setUser={userContext.setUser} />
+					<SigninComponent
+						setUser={userContext.setUser}
+						setCookie={userContext.setCookie}
+					/>
 				) : (
 					<SignupComponent />
 				)}

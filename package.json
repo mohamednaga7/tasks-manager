@@ -1,0 +1,25 @@
+{
+	"name": "tasks-manager",
+	"version": "1.0.0",
+	"description": "a simple tasks manager app",
+	"scripts": {
+		"setup-api": "cd api && yarn install && yarn build",
+		"setup-frontend": "cd client && yarn install && yarn build",
+		"deploy:db": "cd api && yarn prisma db push",
+		"seed": "cd api && yarn seed",
+		"first-start": "yarn setup && yarn deploy:db && yarn seed && yarn start",
+		"setup": "yarn setup-api && yarn setup-frontend",
+		"start": "cd api && yarn start"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/mohamednaga7/tasks-manager.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/mohamednaga7/tasks-manager/issues"
+	},
+	"homepage": "https://github.com/mohamednaga7/tasks-manager#readme"
+}

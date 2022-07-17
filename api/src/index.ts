@@ -25,10 +25,11 @@ const main = async () => {
   const app = express()
   const port = process.env.PORT || 3001
 
-  const corsWhitelist = [
-    process.env.FRONTEND_URL!,
-    'https://studio.apollographql.com',
-  ]
+  const FRONTEND_URL = !!process.env.FRONTEND_URL
+    ? process.env.FRONTEND_URL
+    : `http://localhost:${port}`
+
+  const corsWhitelist = [FRONTEND_URL, 'https://studio.apollographql.com']
 
   const corsOptions = {
     credentials: true,
@@ -42,14 +43,15 @@ const main = async () => {
       store: new RedisStore({
         client: redis,
       }),
-      name: 'sid',
+      name: `${FRONTEND_URL}-sid`,
       secret: process.env.SESSION_SECRET!,
       resave: false,
+      proxy: true,
       saveUninitialized: false,
       cookie: {
         httpOnly: false,
         sameSite: false,
-        secure: process.env.NODE_ENV === 'production',
+        secure: false,
         maxAge: 1000 * 60 * 60 * 24 * 30, // 30 days
       },
     }),
@@ -86,11 +88,13 @@ const main = async () => {
     cors: corsOptions,
   })
 
-  app.use(express.static(join(__dirname, '..', '..', 'client', 'build')))
+  if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(join(__dirname, '..', '..', 'client', 'build')))
 
-  app.get('*', (req, res) => {
-    res.sendFile(join(__dirname, '..', '..', 'client', 'build', 'index.html'))
-  })
+    app.get('*', (req, res) => {
+      res.sendFile(join(__dirname, '..', '..', 'client', 'build', 'index.html'))
+    })
+  }
 
   app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at https://localhost:${port}`)

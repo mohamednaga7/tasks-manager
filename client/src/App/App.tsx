@@ -1,15 +1,18 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { AuthPageType } from 'pages/Auth/Auth.page';
-import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute.component';
+import {
+	ProtectedRoute,
+	UnAuthenticatedRoute,
+} from 'components/ProtectedRoute/ProtectedRoute.component';
 import { UserContext } from 'context/UserContext';
 import { User } from 'types/user.model';
-import Cookies from 'js-cookie';
 import { useLazyQuery } from '@apollo/client';
 import { getCurrentUserQuery } from './api';
 import { GetCurrentUser } from './__generated__/GetCurrentUser';
 import { LoadingScreen } from 'components/LoadingScreen/LoadingScreen';
 import { Layout } from 'components/Layout/Layout';
+import { clearAuthCookie, getAuthCookie } from 'utils/auth-utils';
 
 const HomePage = React.lazy(() => import('pages/Home/Home.page'));
 const AuthPage = React.lazy(() => import('pages/Auth/Auth.page'));
@@ -20,10 +23,10 @@ const TicketDetailsPage = React.lazy(
 
 function App() {
 	const [user, setUser] = useState<User | null>(null);
+	const [authCookie, setAuthCookie] = useState<string | null>(
+		getAuthCookie() || null
+	);
 	const navigate = useNavigate();
-
-	// eslint-disable-next-line react-hooks/exhaustive-deps
-	const authCookie = useMemo(() => Cookies.get('sid'), [user]);
 
 	const [getCurrentuser, { loading, error }] = useLazyQuery<GetCurrentUser>(
 		getCurrentUserQuery,
@@ -47,7 +50,7 @@ function App() {
 
 	useEffect(() => {
 		if (error && error.message !== 'Failed to fetch' && authCookie) {
-			Cookies.remove('sid');
+			clearAuthCookie();
 			setUser(null);
 			navigate('/signin', { replace: true });
 		}
@@ -55,7 +58,9 @@ function App() {
 	}, [error, authCookie]);
 
 	return (
-		<UserContext.Provider value={{ user, setUser, cookie: authCookie }}>
+		<UserContext.Provider
+			value={{ user, setUser, cookie: authCookie, setCookie: setAuthCookie }}
+		>
 			<div className='min-h-screen'>
 				{loading && !user && authCookie ? (
 					<LoadingScreen />
@@ -80,20 +85,30 @@ function App() {
 						</Route>
 						<Route
 							path='/signin'
-							element={
-								<React.Suspense fallback={<LoadingScreen />}>
-									<AuthPage type={AuthPageType.SIGNIN} />
-								</React.Suspense>
-							}
-						/>
+							element={<UnAuthenticatedRoute cookie={authCookie} />}
+						>
+							<Route
+								path='/signin'
+								element={
+									<React.Suspense fallback={<LoadingScreen />}>
+										<AuthPage type={AuthPageType.SIGNIN} />
+									</React.Suspense>
+								}
+							/>
+						</Route>
 						<Route
 							path='/signup'
-							element={
-								<React.Suspense fallback={<LoadingScreen />}>
-									<AuthPage type={AuthPageType.SIGNUP} />
-								</React.Suspense>
-							}
-						/>
+							element={<UnAuthenticatedRoute cookie={authCookie} />}
+						>
+							<Route
+								path='/signup'
+								element={
+									<React.Suspense fallback={<LoadingScreen />}>
+										<AuthPage type={AuthPageType.SIGNUP} />
+									</React.Suspense>
+								}
+							/>
+						</Route>
 						<Route
 							path='/board'
 							element={

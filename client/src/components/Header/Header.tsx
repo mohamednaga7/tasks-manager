@@ -7,7 +7,8 @@ export const Header = () => {
 	const { user, setUser } = useContext(UserContext);
 
 	const handleLogout = () => {
-		Cookies.remove('sid');
+		// eslint-disable-next-line no-restricted-globals
+		Cookies.remove(`${window.location.origin}-sid`);
 		setUser(null);
 	};
 

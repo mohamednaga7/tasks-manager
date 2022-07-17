@@ -15,6 +15,5 @@ export class CreateTicketInput {
 
   @Field((_type) => ID, { nullable: true })
   @IsString()
-  @IsNotEmpty()
   assignedUserId?: string
 }

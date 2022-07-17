@@ -6,14 +6,16 @@ import { Formik } from 'formik';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { User } from 'types/user.model';
+import { getAuthCookie } from 'utils/auth-utils';
 import { signinUserMutation } from './api';
 import { SigninUser, SigninUserVariables } from './__generated__/SigninUser';
 
 interface Props {
 	setUser: (user: User | null) => void;
+	setCookie: (cookie: string | null) => void;
 }
 
-export const SigninComponent = ({ setUser }: Props) => {
+export const SigninComponent = ({ setUser, setCookie }: Props) => {
 	const navigate = useNavigate();
 	const client = useApolloClient();
 	const [submitUserSignin, { error, data }] = useMutation<
@@ -62,6 +64,7 @@ export const SigninComponent = ({ setUser }: Props) => {
 					if (data) {
 						setTimeout(() => {
 							setUser(data.signin.user);
+							setCookie(getAuthCookie() || '');
 							navigate('/');
 						}, 1500);
 					}

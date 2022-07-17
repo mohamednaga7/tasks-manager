@@ -8,3 +8,7 @@ interface Props {
 export const ProtectedRoute = ({ cookie }: Props) => {
 	return cookie ? <Outlet /> : <Navigate to='/signin' />;
 };
+
+export const UnAuthenticatedRoute = ({ cookie }: Props) => {
+	return cookie ? <Navigate to='/' /> : <Outlet />;
+};
