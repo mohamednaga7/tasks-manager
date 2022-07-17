@@ -38,8 +38,8 @@ const seedDB = async () => {
           Math.floor(Math.random() * ticketStatusArray.length)
         ] || TicketStatus.TODO) as TicketStatus | undefined,
         assignedUserId: users[Math.floor(Math.random() * users.length)].id,
-        createdAt: faker.date.past(),
-        updatedAt: faker.date.past(),
+        createdAt: faker.date.past(30),
+        updatedAt: faker.date.past(30),
         authorId: users[Math.floor(Math.random() * users.length)].id,
         lastUpdatedByUserId: users[Math.floor(Math.random() * users.length)].id,
       },
