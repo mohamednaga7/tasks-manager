@@ -2,9 +2,7 @@
 
 ## Instructions for use
 
-- if you don't have a postgres db and redis db installed, you can run an instance for each of them in docker by:
-
-  - first changing the values in running `docker compose up -d`
+- if you don't have a postgres db and redis db installed, you can run an instance for each of them in docker by running `docker compose up -d`
 
 - add your postgresql connection url to api/.env file (DATABASE_URL)
   if you are using docker the url is `postgresql://postgres:postgres@0.0.0.0:5432/tasks-manager-db`
