@@ -70,8 +70,6 @@ export class TicketsService {
       }
     }
 
-    console.log(updateTicketInput)
-
     return this.prismaClient.ticket.update({
       where: {
         id: ticketId,
