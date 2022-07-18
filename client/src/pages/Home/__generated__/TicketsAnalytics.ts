@@ -9,13 +9,13 @@
 
 export interface TicketsAnalytics_ticketsAnalytics {
   __typename: "TicketsAnalytics";
-  totalTickets: number;
-  todoTickets: number;
-  inProgressTickets: number;
-  blockedTickets: number;
-  inQaTickets: number;
-  doneTickets: number;
-  deployedTickets: number;
+  totalTicketsCount: number;
+  todoTicketsCount: number;
+  inProgressTicketsCount: number;
+  blockedTicketsCount: number;
+  inQaTicketsCount: number;
+  doneTicketsCount: number;
+  deployedTicketsCount: number;
 }
 
 export interface TicketsAnalytics {

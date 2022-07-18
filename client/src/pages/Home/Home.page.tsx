@@ -28,7 +28,9 @@ export const HomePage = () => {
 					<>
 						<h2 className='mb-6'>
 							You have a total of{' '}
-							<strong>{ticketAnalytics.ticketsAnalytics.totalTickets}</strong>{' '}
+							<strong>
+								{ticketAnalytics.ticketsAnalytics.totalTicketsCount}
+							</strong>{' '}
 							tickets
 						</h2>
 						<h3 className='text-2xl mb-4'>Summary</h3>
@@ -37,33 +39,33 @@ export const HomePage = () => {
 							<DashboardCard
 								onClick={navigateToBoard}
 								title='To Do'
-								value={ticketAnalytics.ticketsAnalytics.todoTickets}
+								value={ticketAnalytics.ticketsAnalytics.todoTicketsCount}
 							/>
 
 							<DashboardCard
 								onClick={navigateToBoard}
 								title='In Progress'
-								value={ticketAnalytics.ticketsAnalytics.inProgressTickets}
+								value={ticketAnalytics.ticketsAnalytics.inProgressTicketsCount}
 							/>
 							<DashboardCard
 								onClick={navigateToBoard}
 								title='Blocked'
-								value={ticketAnalytics.ticketsAnalytics.blockedTickets}
+								value={ticketAnalytics.ticketsAnalytics.blockedTicketsCount}
 							/>
 							<DashboardCard
 								onClick={navigateToBoard}
 								title='In QA'
-								value={ticketAnalytics.ticketsAnalytics.inQaTickets}
+								value={ticketAnalytics.ticketsAnalytics.inQaTicketsCount}
 							/>
 							<DashboardCard
 								onClick={navigateToBoard}
 								title='Done'
-								value={ticketAnalytics.ticketsAnalytics.doneTickets}
+								value={ticketAnalytics.ticketsAnalytics.doneTicketsCount}
 							/>
 							<DashboardCard
 								onClick={navigateToBoard}
 								title='Deployed'
-								value={ticketAnalytics.ticketsAnalytics.deployedTickets}
+								value={ticketAnalytics.ticketsAnalytics.deployedTicketsCount}
 							/>
 						</div>
 						<hr className='my-6' />

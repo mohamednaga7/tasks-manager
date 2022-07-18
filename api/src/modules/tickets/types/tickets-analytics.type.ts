@@ -1,25 +1,26 @@
 import { Field, ObjectType } from 'type-graphql'
+import { Ticket } from '../models/ticket.model'
 
 @ObjectType()
 export class TicketsAnalytics {
   @Field((_type) => Number)
-  totalTickets: number
+  totalTicketsCount: number
 
   @Field((_type) => Number)
-  todoTickets: number
+  todoTicketsCount: number
 
   @Field((_type) => Number)
-  inProgressTickets: number
+  inProgressTicketsCount: number
 
   @Field((_type) => Number)
-  blockedTickets: number
+  blockedTicketsCount: number
 
   @Field((_type) => Number)
-  inQaTickets: number
+  inQaTicketsCount: number
 
   @Field((_type) => Number)
-  doneTickets: number
+  doneTicketsCount: number
 
   @Field((_type) => Number)
-  deployedTickets: number
+  deployedTicketsCount: number
 }

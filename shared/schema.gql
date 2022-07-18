@@ -67,13 +67,13 @@ enum TicketStatus {
 }
 
 type TicketsAnalytics {
-  blockedTickets: Float!
-  deployedTickets: Float!
-  doneTickets: Float!
-  inProgressTickets: Float!
-  inQaTickets: Float!
-  todoTickets: Float!
-  totalTickets: Float!
+  blockedTicketsCount: Float!
+  deployedTicketsCount: Float!
+  doneTicketsCount: Float!
+  inProgressTicketsCount: Float!
+  inQaTicketsCount: Float!
+  todoTicketsCount: Float!
+  totalTicketsCount: Float!
 }
 
 input UpdateTicketInput {

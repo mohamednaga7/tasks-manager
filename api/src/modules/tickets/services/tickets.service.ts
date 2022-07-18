@@ -43,13 +43,13 @@ export class TicketsService {
 
   public async getAnalytics(): Promise<TicketsAnalytics> {
     const [
-      totalTickets,
-      todoTickets,
-      inProgressTickets,
-      blockedTickets,
-      inQaTickets,
-      doneTickets,
-      deployedTickets,
+      totalTicketsCount,
+      todoTicketsCount,
+      inProgressTicketsCount,
+      blockedTicketsCount,
+      inQaTicketsCount,
+      doneTicketsCount,
+      deployedTicketsCount,
     ] = await Promise.all([
       await this.prismaClient.ticket.count(),
       await this.prismaClient.ticket.count({
@@ -72,13 +72,13 @@ export class TicketsService {
       }),
     ])
     return {
-      totalTickets,
-      todoTickets,
-      inProgressTickets,
-      blockedTickets,
-      inQaTickets,
-      doneTickets,
-      deployedTickets,
+      totalTicketsCount,
+      todoTicketsCount,
+      inProgressTicketsCount,
+      blockedTicketsCount,
+      inQaTicketsCount,
+      doneTicketsCount,
+      deployedTicketsCount,
     }
   }
 
