@@ -26,7 +26,7 @@ type Query {
   me: User!
   ticket(ticketId: String!): Ticket!
   ticketHistory(ticketId: String!): [TicketHistory!]!
-  tickets(limit: Float, skip: Float): [Ticket!]!
+  tickets(limit: Float, skip: Float): TicketsResponse!
   ticketsAnalytics: TicketsAnalytics!
   users(limit: Float, skip: Float): [User!]!
 }
@@ -74,6 +74,17 @@ type TicketsAnalytics {
   inQaTicketsCount: Float!
   todoTicketsCount: Float!
   totalTicketsCount: Float!
+}
+
+type TicketsCountWithStatus {
+  _count: Float!
+  status: TicketStatus!
+}
+
+type TicketsResponse {
+  tickets: [Ticket!]!
+  ticketsCountByStatus: [TicketsCountWithStatus!]!
+  totalCount: Float!
 }
 
 input UpdateTicketInput {

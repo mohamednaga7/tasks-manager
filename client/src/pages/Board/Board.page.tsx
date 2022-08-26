@@ -29,7 +29,7 @@ export const BoardPage = () => {
 			)}
 			<div className='flex justify-between mb-4 items-center'>
 				<h4 className='text-lg'>
-					Total of <span className='font-bold'>{data?.tickets.length}</span>{' '}
+					Total of <span className='font-bold'>{data?.tickets.totalCount}</span>{' '}
 					tickets
 				</h4>
 				<button
@@ -47,42 +47,72 @@ export const BoardPage = () => {
 						status={TicketStatus.TODO}
 						loading={loading}
 						title='Todo'
-						tickets={data?.tickets}
+						totalCount={
+							data?.tickets.ticketsCountByStatus.find(
+								({ status }) => status === TicketStatus.TODO
+							)?._count || 0
+						}
+						tickets={data?.tickets.tickets}
 					/>
 
 					<BoardColumn
 						status={TicketStatus.IN_PROGRESS}
 						loading={loading}
 						title='In Progress'
-						tickets={data?.tickets}
+						totalCount={
+							data?.tickets.ticketsCountByStatus.find(
+								({ status }) => status === TicketStatus.IN_PROGRESS
+							)?._count || 0
+						}
+						tickets={data?.tickets.tickets}
 					/>
 
 					<BoardColumn
 						status={TicketStatus.BLOCKED}
 						loading={loading}
 						title='Blocked'
-						tickets={data?.tickets}
+						totalCount={
+							data?.tickets.ticketsCountByStatus.find(
+								({ status }) => status === TicketStatus.BLOCKED
+							)?._count || 0
+						}
+						tickets={data?.tickets.tickets}
 					/>
 
 					<BoardColumn
 						status={TicketStatus.IN_QA}
 						loading={loading}
 						title='In QA'
-						tickets={data?.tickets}
+						totalCount={
+							data?.tickets.ticketsCountByStatus.find(
+								({ status }) => status === TicketStatus.IN_QA
+							)?._count || 0
+						}
+						tickets={data?.tickets.tickets}
 					/>
 
 					<BoardColumn
 						status={TicketStatus.DONE}
 						loading={loading}
 						title='Done'
-						tickets={data?.tickets}
+						totalCount={
+							data?.tickets.ticketsCountByStatus.find(
+								({ status }) => status === TicketStatus.DONE
+							)?._count || 0
+						}
+						tickets={data?.tickets.tickets}
 					/>
 
 					<BoardColumn
 						status={TicketStatus.DEPLOYED}
 						loading={loading}
 						title='Deployed'
-						tickets={data?.tickets}
+						totalCount={
+							data?.tickets.ticketsCountByStatus.find(
+								({ status }) => status === TicketStatus.DEPLOYED
+							)?._count || 0
+						}
+						tickets={data?.tickets.tickets}
 					/>
 				</div>
 			</div>

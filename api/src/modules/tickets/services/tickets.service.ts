@@ -29,6 +29,23 @@ export class TicketsService {
     })
   }
 
+  public async getTicketsTotalCount(): Promise<number> {
+    return await this.prismaClient.ticket.count()
+  }
+
+  public async getTicketsCountByStatus(): Promise<
+    { status: TicketStatus; _count: number }[]
+  > {
+    return (
+      await this.prismaClient.ticket.groupBy({
+        by: ['status'],
+        _count: {
+          status: true,
+        },
+      })
+    ).map(({ status, _count }) => ({ status, _count: _count.status }))
+  }
+
   public async createTicket(
     currentUser: User,
     createTicketInput: CreateTicketInput,

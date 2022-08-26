@@ -18,6 +18,7 @@ import { CreateTicketInput } from '../types/create-ticket-input.type'
 import { UpdateTicketInput } from '../types/update-ticket-input.type'
 import { TicketsHistoryService } from '../services/tickets-history.service'
 import { TicketsAnalytics } from '../types/tickets-analytics.type'
+import { TicketsResponse } from '../models/tickets-response.model'
 
 @Resolver(Ticket)
 export class TicketsResolver {
@@ -37,13 +38,18 @@ export class TicketsResolver {
     return this.ticketsService.getAnalytics()
   }
 
-  @Query((_returns) => [Ticket])
+  @Query((_returns) => TicketsResponse)
   @Authorized()
   async tickets(
     @Arg('limit', { nullable: true }) limit?: number,
     @Arg('skip', { nullable: true }) skip?: number,
-  ) {
-    return this.ticketsService.getTickets({ limit, skip })
+  ): Promise<TicketsResponse> {
+    const tickets = await this.ticketsService.getTickets({ limit, skip })
+    const totalCount = await this.ticketsService.getTicketsTotalCount()
+    const ticketsCountByStatus =
+      await this.ticketsService.getTicketsCountByStatus()
+
+    return { tickets, totalCount, ticketsCountByStatus }
   }
 
   @FieldResolver((_type) => User)

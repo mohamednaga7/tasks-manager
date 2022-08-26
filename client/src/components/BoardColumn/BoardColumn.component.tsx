@@ -9,9 +9,16 @@ interface Props {
 	loading: boolean;
 	tickets?: Ticket[];
 	status: TicketStatus;
+	totalCount: number;
 }
 
-export const BoardColumn = ({ tickets, loading, title, status }: Props) => {
+export const BoardColumn = ({
+	tickets,
+	loading,
+	title,
+	status,
+	totalCount,
+}: Props) => {
 	const ticketsList = tickets ? (
 		filterTicketsByStatus(tickets, status).map((ticket) => (
 			<TicketComponent ticket={ticket} key={ticket.id} />
@@ -24,7 +31,10 @@ export const BoardColumn = ({ tickets, loading, title, status }: Props) => {
 	return (
 		<div className='flex flex-col w-80 h-full'>
 			<div className='bg-gray-200 shadow-sm shadow-gray-300 py-4 px-5 mb-3'>
-				<h4>{title}</h4>
+				<h4 className='flex justify-between'>
+					<span className='block'>{title}</span>{' '}
+					<span className='block'>{totalCount}</span>
+				</h4>
 			</div>
 
 			<div className='flex flex-col bg-gray-100 rounded-sm shadow-md shadow-gray-300 p-4 h-full overflow-y-scroll'>
